@@ -742,6 +742,6 @@ body {
 .task:hover .task-btn {
   border-color: #ffffff;
   color: #ffffffff; }
-.task:hover .task-deadline-date {
+.task:hover .task-deadline-date{
   color: #fff;
 }
