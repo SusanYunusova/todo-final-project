@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Builder
@@ -17,7 +18,7 @@ import java.io.Serializable;
 public class User implements Serializable {
     /**
      * User-Shafa
-     * long idUser
+     * long id
      * string fullName
      * string email
      * string password
@@ -26,10 +27,17 @@ public class User implements Serializable {
     private  static  final long serialVersionUID=1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idUser",nullable = false,unique = true)
+    @Column(name = "id",nullable = false,unique = true)
     private  long idUser;
+    @Column(name = "fullName")
     private  String fullName;
+    @Column(name = "email")
     private  String email;
+    @Column(name = "password")
     private  String password;
+    @Column(name = "confirmPassword")
     private String confirmPassword;
+
+    @OneToMany(mappedBy = "idUser")
+    private List<Task> taskList;
 }
