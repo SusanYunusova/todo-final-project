@@ -1,9 +1,13 @@
 # todo-final-project
 Todo tasking management project for managind todolist,tasks.Written for IBA tech Final-project
+
 The idea of the project
-The main idea of the project is to build a Trello-like application that's useful for managing tasks digitally instead of writing them down on paper.
+
+The main idea of the project is to build a Trello-like application
+that's useful for managing tasks digitally instead of writing them down on paper.
 
 How everything should work:
+
 The algorythm that a new user should follow consists of the following:
 
 Open the login page, choose the Create account option
