@@ -74,4 +74,9 @@ public class UserDBService implements MySqlDBService<User> {
 
         return null;
     }
+    public void getByPassword(User user){
+        Optional<User> byEmailAndPassword = userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+
+
+    }
 }

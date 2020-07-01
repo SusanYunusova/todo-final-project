@@ -35,8 +35,8 @@ public class User implements Serializable {
     private  String email;
     @Column(name = "password")
     private  String password;
-    @Column(name = "confirmPassword")
-    private String confirmPassword;
+//    @Column(name = "confirmPassword")
+//    private String confirmPassword;
 
     @OneToMany(mappedBy = "idUser")
     private List<Task> taskList;
