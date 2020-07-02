@@ -35,4 +35,12 @@ public class UserController {
       return userService.delete(idUser);
 
     }
+
+    //todo search
+
+    @GetMapping("/getById/{idUser}")
+    public ResponseEntity<?> getById(@PathVariable long idUser){
+        log.info("trying to get user by idUser");
+        return userService.getByID(idUser);
+    }
 }
