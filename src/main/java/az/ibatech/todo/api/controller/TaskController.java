@@ -36,6 +36,6 @@ private final TaskService taskService;
     @GetMapping("/getById/{idTask}")
     public ResponseEntity<?> getById(@PathVariable long idTask){
         log.info("trying to get task by idTask");
-        return taskService.getById(idTask);
+        return taskService.getByID(idTask);
     }
 }
