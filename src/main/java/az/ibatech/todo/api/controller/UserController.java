@@ -31,7 +31,7 @@ public class UserController {
     }
     @DeleteMapping("/delete/{idUser}")
     public ResponseEntity<?>  update(@PathVariable long idUser){
-       log.info("creating user...");
+       log.info("deleting user...");
       return userService.delete(idUser);
 
     }
