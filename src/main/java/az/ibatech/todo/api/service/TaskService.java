@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -66,5 +67,33 @@ public class TaskService {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    public ResponseEntity<?> getByIDUser(long idUser) {
+        try {
+            log.info("trying to get  taskList by  idUser");
+            List<Task> taskList = taskDBService.getByIdUser(idUser);
+            if (!taskList.isEmpty()) {
+                log.info("taskList has found by idUser");
+                return new ResponseEntity<>(taskList, HttpStatus.OK);
+            } else {
+                log.info("couldn't find by id{}",idUser);
+                return new ResponseEntity<>(Optional.empty(), HttpStatus.NO_CONTENT);
+            }
+
+        } catch (Exception e) {
+            log.error("error get by idUser o taskList{}{}", e, e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }    }
+
+    public ResponseEntity<?> getByStatus(long status) {
+    }
+
+    public ResponseEntity<?> complete(long idTask) {
+        return null;
+    }
+
+    public ResponseEntity<?> getArchive(long idUser) {
+        return null;
     }
 }
