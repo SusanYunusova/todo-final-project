@@ -50,8 +50,7 @@ public class TaskDBService implements MySqlDBService<Task> {
     public Optional<Task> getById(long id) {
         try {
             log.info("trying to get task by id from db");
-            Optional<Task> task = taskRepository.findByIdTask(id);
-            return task;
+            return taskRepository.findByIdTask(id);
         } catch (Exception e) {
             log.error("error getting by id from Db{}{}", e, e);
             return Optional.empty();
@@ -62,8 +61,7 @@ public class TaskDBService implements MySqlDBService<Task> {
     public List<Task> getAll() {
         try {
             log.info("trying to getAll task from db");
-            List<Task> all = taskRepository.findAll();
-            return all;
+            return taskRepository.findAll();
         } catch (Exception e) {
             log.error("error getting all from db{}{}", e, e);
             return new ArrayList<>();

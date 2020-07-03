@@ -6,6 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
+/**
+ * localhost:2020/user
+ */
 @RestController
 @RequestMapping("/user")
 @Slf4j
@@ -16,7 +21,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/add")
+    @GetMapping()
+    public Principal getUser(Principal user){
+       log.info("loginfb...");
+      return user;
+
+    }
+    @PostMapping("/add")
     public ResponseEntity<?>  create(@RequestBody User user){
        log.info("creating user...");
       return userService.saveOrUpdate(user);

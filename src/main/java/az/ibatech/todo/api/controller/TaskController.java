@@ -32,6 +32,10 @@ private final TaskService taskService;
         return taskService.delete(idTask);
     }
     //todo search
+    //todo by idUSer list task
+    //getByStatus/{status} return listtask
+    //todo complite task id ni gonder bu idli taskin icindeki statusu done ele
+    //
 
     @GetMapping("/getById/{idTask}")
     public ResponseEntity<?> getById(@PathVariable long idTask){

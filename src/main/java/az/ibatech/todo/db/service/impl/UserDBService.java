@@ -48,8 +48,7 @@ public class UserDBService implements MySqlDBService<User> {
     public Optional<User> getById(long idUser) {
         try {
             log.info("trying to get user by id from db");
-            Optional<User> user = userRepository.findByIdUser(idUser);
-            return user;
+            return userRepository.findByIdUser(idUser);
         } catch (Exception e) {
             log.error("error getting by idUser from Db{}{}", e, e);
             return Optional.empty();
@@ -60,8 +59,7 @@ public class UserDBService implements MySqlDBService<User> {
     public List<User> getAll() {
         try {
             log.info("trying to getAll users from db");
-            List<User> all = userRepository.findAll();
-            return all;
+            return userRepository.findAll();
         } catch (Exception e) {
             log.error("error getting all from db{}{}", e, e);
             return new ArrayList<>();

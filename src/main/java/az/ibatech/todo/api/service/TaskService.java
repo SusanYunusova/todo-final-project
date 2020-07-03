@@ -51,7 +51,7 @@ public class TaskService {
 
     public ResponseEntity<?> getByID(long id) {
         try {
-            log.info("trying to get  USer by  id");
+            log.info("trying to get  task by  id");
             Optional<Task> byIDTask = taskDBService.getById(id);
             if (byIDTask.isPresent()) {
                 log.info("task has found by id");

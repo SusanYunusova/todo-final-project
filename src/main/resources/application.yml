@@ -1,8 +1,8 @@
 security:
   oauth2:
     client:
-      clientId: 1336848609802188
-      clientSecret: 8d1b734e9ff2a5ff20ec272fd64fd281
+      clientId: 555353381802870
+      clientSecret: 946487de722d572bd05755b0c72fa5da
       accessTokenUri: https://graph.facebook.com/oauth/access_token
       userAuthorizationUri: https://www.facebook.com/dialog/oauth
       tokenName: oauth_token
@@ -10,3 +10,26 @@ security:
       clientAuthenticationScheme: form
     resource:
       userInfoUri: https://graph.facebook.com/me
+
+spring:
+  application:
+    name: todo
+  datasource:
+    url: jdbc:mysql://localhost:3306/todo?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
+
+
+server:
+  port: 2020
