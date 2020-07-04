@@ -1,8 +1,8 @@
 security:
   oauth2:
     client:
-      clientId: 555353381802870
-      clientSecret: 946487de722d572bd05755b0c72fa5da
+      clientId: 579377249444600
+      clientSecret: c96125b1b6f8cd6c56d87fb7447968eb
       accessTokenUri: https://graph.facebook.com/oauth/access_token
       userAuthorizationUri: https://www.facebook.com/dialog/oauth
       tokenName: oauth_token
