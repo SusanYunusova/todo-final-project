@@ -11,20 +11,20 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 @Component
 @Slf4j
 public class UserService {
-    private final UserDBService userDBService;
+
     @Autowired
     ObjectFactory<HttpSession> httpSessionObjectFactory;
+
+    private final UserDBService userDBService;
+
     public UserService(UserDBService userDBService) {
         this.userDBService = userDBService;
     }
-
 
     public Optional<User> saveOrUpdate(User user) {
         try {
@@ -46,6 +46,8 @@ public class UserService {
 //        return user;
     }
 
+
+
     public String getByEmail(HashMap data){
         log.info("trying to get by email");
         Optional<User> user = userDBService.getByEmail((String)data.get("id"));
@@ -65,6 +67,7 @@ public class UserService {
         session.setAttribute("user",user);
         return "landing";
     }
+
     public ResponseEntity<?> delete(long idUser) {
         try {
             log.info("trying to delete  USer by  id");

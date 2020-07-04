@@ -32,8 +32,4 @@ spring:
 
 
 server:
-  port: 2020
-
-logging:
-  level:
-    root: debug
+  port: 9606
