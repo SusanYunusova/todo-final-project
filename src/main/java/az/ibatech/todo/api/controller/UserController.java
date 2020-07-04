@@ -33,7 +33,8 @@ public class UserController {
 
     @GetMapping("/user")
     public Principal getUser(Principal user){
-       log.info("loginfb...{}",user);
+//        open_rqnubcy_user@tfbnw.net
+       log.info("loginfb...{}",user.getName());
       return user;
 
     }
