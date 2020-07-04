@@ -87,13 +87,42 @@ public class TaskService {
         }    }
 
     public ResponseEntity<?> getByStatus(long status) {
+        try {
+            log.info("trying to get  taskList by  status");
+            List<Task> taskList = taskDBService.getByStatus(status);
+            if (!taskList.isEmpty()) {
+                log.info("taskList has found by status{}",status);
+                return new ResponseEntity<>(taskList, HttpStatus.OK);
+            } else {
+                log.info("couldn't find by status{}",status);
+                return new ResponseEntity<>(Optional.empty(), HttpStatus.NO_CONTENT);
+            }
+
+        } catch (Exception e) {
+            log.error("error get by idUser o taskList{}{}", e, e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     public ResponseEntity<?> complete(long idTask) {
-        return null;
+        try {
+            log.info("trying to complete  task by  idTask");
+            Optional<Task> updatedTask = taskDBService.complete(idTask);
+            if (updatedTask.isPresent()) {
+                log.info("task has updated complete by idTask{}",idTask);
+                return new ResponseEntity<>(updatedTask, HttpStatus.OK);
+            } else {
+                log.info("couldn't update by idTask{}",idTask);
+                return new ResponseEntity<>(Optional.empty(), HttpStatus.NO_CONTENT);
+            }
+
+        } catch (Exception e) {
+            log.error("error update complete task{}{}", e, e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    public ResponseEntity<?> getArchive(long idUser) {
-        return null;
-    }
+//    public ResponseEntity<?> getArchive(long idUser) {
+//        return null;
+//    }
 }

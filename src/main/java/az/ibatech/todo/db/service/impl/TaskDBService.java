@@ -28,8 +28,8 @@ public class TaskDBService implements MySqlDBService<Task> {
             taskRepository.save(task);
             return Optional.of(task);
 
-        } catch (Exception e){
-            log.error("error saving task to db {}{}",e,e);
+        } catch (Exception e) {
+            log.error("error saving task to db {}{}", e, e);
             return Optional.empty();
         }
     }
@@ -71,5 +71,44 @@ public class TaskDBService implements MySqlDBService<Task> {
     @Override
     public List<Task> getAllBy(long id) {
         return null;
+    }
+
+    public List<Task> getByIdUser(long idUser) {
+        try {
+            log.info("trying to getAll taskList from db by idUser");
+            return taskRepository.findAllByIdUser(idUser);
+        } catch (Exception e) {
+            log.error("error getting all from db by idUser{}{}", e, e);
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Task> getByStatus(long status) {
+        try {
+            log.info("trying to getAll taskList from db by status");
+            return taskRepository.findAllByStatus(status);
+        } catch (Exception e) {
+            log.error("error getting all from db by status{}{}", e, e);
+            return new ArrayList<>();
+        }
+    }
+
+    public Optional<Task> complete(long idTask) {
+        try {
+            log.info("trying to get task by idTask{}", idTask);
+            Optional<Task> byIdTask = taskRepository.findByIdTask(idTask);
+            if (byIdTask.isPresent()) {
+                log.info("setting status to complete 4");
+                byIdTask.get().setStatus(4);
+                log.info("updating task");
+                return saveUpdate(byIdTask.get());
+            } else {
+                log.info("task by id not found");
+                return Optional.empty();
+            }
+        } catch (Exception e) {
+            log.error("error updating complete by idTask{}{}", e, e);
+            return Optional.empty();
+        }
     }
 }

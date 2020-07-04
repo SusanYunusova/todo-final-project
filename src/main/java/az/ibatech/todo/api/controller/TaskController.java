@@ -59,11 +59,11 @@ private final TaskService taskService;
         log.info("trying to get complete by idTask");
         return taskService.complete(idTask);
     }
-
-    @GetMapping("/archive/{idUser}")
-    public ResponseEntity<?> getArchive(@PathVariable long idUser){
-        log.info("trying to get archieve by idUser");
-        return taskService.getArchive(idUser);
-    }
+//same with get by status
+//    @GetMapping("/archive/{idUser}")
+//    public ResponseEntity<?> getArchive(@PathVariable long idUser){
+//        log.info("trying to get archieve by idUser");
+//        return taskService.getArchive(idUser);
+//    }
 
 }
