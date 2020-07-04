@@ -1,5 +1,6 @@
 package az.ibatech.todo.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,5 +40,6 @@ public class User implements Serializable {
 //    private String confirmPassword;
 
     @OneToMany(mappedBy = "idUser")
+    @JsonManagedReference
     private List<Task> taskList;
 }

@@ -27,11 +27,20 @@ public class UserDBService implements MySqlDBService<User> {
             userRepository.save(user);
             return Optional.of(user);
         } catch (Exception e) {
-            log.error("error saving user to db...{}{}", e, e);
+            log.error("error saving user to db...{}", e, e);
             return Optional.empty();
         }
     }
 
+    public Optional<User> getByEmail(User user){
+        try {
+            log.info("trying to get user by email");
+           return userRepository.findByEmail(user.getEmail());
+        }catch (Exception e){
+            log.error("erro gettin email {}",e,e);
+            return Optional.empty();
+        }
+    }
     @Override
     public boolean delete(User user) {
         try {
@@ -39,7 +48,7 @@ public class UserDBService implements MySqlDBService<User> {
             userRepository.delete(user);
             return true;
         } catch (Exception e) {
-            log.error("error from deleting user from db{}{}", e, e);
+            log.error("error from deleting user from db{}", e, e);
             return false;
         }
     }

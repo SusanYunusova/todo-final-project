@@ -1,5 +1,6 @@
 package az.ibatech.todo.db.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,10 +20,10 @@ public class Task implements Serializable {
     /**
      * Task-Fidan
      */
-    private  static  final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idTask",nullable = false,unique = true)
+    @Column(name = "idTask", nullable = false, unique = true)
     private long idTask;
     @Column(name = "createdTime")
     private Date createdTime;
@@ -33,12 +34,12 @@ public class Task implements Serializable {
     @Column(name = "description")
     private String description;
     @Column(name = "status")
-    private int status=0;
+    private int status = 0;
 
-    @JoinColumn(name = "id_User", referencedColumnName = "id")
     @ManyToOne
+    @JoinColumn(name = "id_User", referencedColumnName = "id")
+    @JsonBackReference
     private User idUser;
-
 
 
 }

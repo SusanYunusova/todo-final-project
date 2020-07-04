@@ -22,10 +22,15 @@ public class UserService {
 
     public ResponseEntity<?> saveOrUpdate(User user) {
         try {
-            log.info("trying to save or update USer");
-            Optional<User> savedUser = userDBService.saveUpdate(user);
-            return new ResponseEntity<>(savedUser, HttpStatus.OK);
-
+            log.info("trying to get by email");
+            Optional<User> byEmail = userDBService.getByEmail(user);
+            if (byEmail.isPresent()) {
+                log.info("trying to save or update USer");
+                Optional<User> savedUser = userDBService.saveUpdate(user);
+                return new ResponseEntity<>(savedUser, HttpStatus.OK);
+            }else {
+                return new ResponseEntity<>(Optional.empty(),HttpStatus.ALREADY_REPORTED);
+            }
         } catch (Exception e) {
             log.error("error save or update user{}{}", e, e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

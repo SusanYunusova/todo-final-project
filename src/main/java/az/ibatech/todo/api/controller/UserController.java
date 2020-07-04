@@ -4,6 +4,7 @@ import az.ibatech.todo.api.service.UserService;
 import az.ibatech.todo.db.entities.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -11,8 +12,8 @@ import java.security.Principal;
 /**
  * localhost:2020/user
  */
-@RestController
-@RequestMapping("/user")
+@Controller
+//@RequestMapping("/user")
 @Slf4j
 public class UserController {
     private  final UserService userService;
@@ -21,9 +22,18 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping()
+    @GetMapping("index")
+    public String indexPage(){
+        return "index";
+    }
+    @GetMapping("addTask")
+    public String adTask(){
+        return "add-task";
+    }
+
+    @GetMapping("/user")
     public Principal getUser(Principal user){
-       log.info("loginfb...");
+       log.info("loginfb...{}",user);
       return user;
 
     }
@@ -31,6 +41,7 @@ public class UserController {
     public ResponseEntity<?>  create(@RequestBody User user){
        log.info("creating user...");
       return userService.saveOrUpdate(user);
+
 
     }
 
