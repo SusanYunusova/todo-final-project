@@ -32,10 +32,10 @@ public class UserDBService implements MySqlDBService<User> {
         }
     }
 
-    public Optional<User> getByEmail(User user){
+    public Optional<User> getByEmail(String email){
         try {
             log.info("trying to get user by email");
-           return userRepository.findByEmail(user.getEmail());
+           return userRepository.findByEmail(email);
         }catch (Exception e){
             log.error("erro gettin email {}",e,e);
             return Optional.empty();

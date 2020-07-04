@@ -3,10 +3,14 @@ package az.ibatech.todo.api.service;
 import az.ibatech.todo.db.entities.User;
 import az.ibatech.todo.db.service.impl.UserDBService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -15,28 +19,52 @@ import java.util.function.Consumer;
 @Slf4j
 public class UserService {
     private final UserDBService userDBService;
-
+    @Autowired
+    ObjectFactory<HttpSession> httpSessionObjectFactory;
     public UserService(UserDBService userDBService) {
         this.userDBService = userDBService;
     }
 
-    public ResponseEntity<?> saveOrUpdate(User user) {
+
+    public Optional<User> saveOrUpdate(User user) {
         try {
             log.info("trying to get by email");
-            Optional<User> byEmail = userDBService.getByEmail(user);
-            if (byEmail.isPresent()) {
+            Optional<User> byEmail = userDBService.getByEmail(user.getEmail());
+            if (!byEmail.isPresent()) {
                 log.info("trying to save or update USer");
                 Optional<User> savedUser = userDBService.saveUpdate(user);
-                return new ResponseEntity<>(savedUser, HttpStatus.OK);
+                return savedUser;
+//                return new ResponseEntity<>(savedUser, HttpStatus.OK);
             }else {
-                return new ResponseEntity<>(Optional.empty(),HttpStatus.ALREADY_REPORTED);
+//                return new ResponseEntity<>(Optional.empty(),HttpStatus.ALREADY_REPORTED);
             }
         } catch (Exception e) {
             log.error("error save or update user{}{}", e, e);
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        return null;
+//        return user;
     }
 
+    public String getByEmail(HashMap data){
+        log.info("trying to get by email");
+        Optional<User> user = userDBService.getByEmail((String)data.get("id"));
+        if(!user.isPresent()){
+            log.info("user not found tryint to insert");
+            user = saveOrUpdate(
+                    User
+                            .builder()
+                            .email((String) data.get("id"))
+                            .fullName((String) data.get("name"))
+                            .password((String) data.get("id"))
+                            .build()
+            );
+
+        }
+        HttpSession session = httpSessionObjectFactory.getObject();
+        session.setAttribute("user",user);
+        return "landing";
+    }
     public ResponseEntity<?> delete(long idUser) {
         try {
             log.info("trying to delete  USer by  id");
