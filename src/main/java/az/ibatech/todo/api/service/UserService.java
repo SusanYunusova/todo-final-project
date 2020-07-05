@@ -43,7 +43,20 @@ public class UserService {
 
     public String getByEmailAndPassword(String email, String password) {
         try {
-            log.info("t");
+            log.info("trying to get by email and password");
+           Optional<User> user= userDBService.getByEmailAndPassword(email,password);
+            if (user.isPresent()){
+                log.info("user found going to landing..");
+                HttpSession session = httpSessionObjectFactory.getObject();
+                session.setAttribute("user", user);
+                return "landing";
+            }else {
+                log.info("user not found by email and password...");
+                return "index";
+            }
+        }catch (Exception e){
+            log.error("error getting user by email and password{}",e,e);
+            return "index";
         }
 
     }
