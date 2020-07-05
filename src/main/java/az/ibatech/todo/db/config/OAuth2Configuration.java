@@ -23,6 +23,7 @@ public class OAuth2Configuration extends WebSecurityConfigurerAdapter {
                         "/error**",
                         "/index**",
                         "/signUp**",
+                        "/resetPassword**",
                         "/static/css/**",
                         "/static/js/**",
                         "/static/img/**"

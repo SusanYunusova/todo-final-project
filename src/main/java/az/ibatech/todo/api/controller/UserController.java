@@ -52,6 +52,13 @@ public class UserController {
     }
 
 
+    @GetMapping("/resetPassword")
+    public String resetPassword(){
+        log.info("going to resetPassword page...");
+        return "reset-password";
+    }
+
+
 
 
 
