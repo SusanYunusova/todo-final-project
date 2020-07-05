@@ -44,6 +44,17 @@ public class UserController {
         HashMap data = (HashMap) ((OAuth2Authentication) a).getUserAuthentication().getDetails();
         return userService.getByEmail(data);
     }
+
+    @GetMapping("/signUp")
+    public String signUp(){
+        log.info("going to signup page...");
+        return "sign-up";
+    }
+
+
+
+
+
     @PostMapping("/add")
     public ResponseEntity<?>  create(@RequestBody User user){
        log.info("creating user...");

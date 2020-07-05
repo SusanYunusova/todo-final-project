@@ -22,6 +22,7 @@ public class OAuth2Configuration extends WebSecurityConfigurerAdapter {
                         "/webjars/**",
                         "/error**",
                         "/index**",
+                        "/signUp**",
                         "/static/css/**",
                         "/static/js/**",
                         "/static/img/**"
