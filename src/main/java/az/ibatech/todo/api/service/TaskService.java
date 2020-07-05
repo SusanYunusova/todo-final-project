@@ -4,10 +4,13 @@ import az.ibatech.todo.db.entities.Task;
 import az.ibatech.todo.db.entities.User;
 import az.ibatech.todo.db.service.impl.TaskDBService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +19,8 @@ import java.util.Optional;
 @Slf4j
 public class TaskService {
     private final TaskDBService taskDBService;
+    @Autowired
+    private HttpServletRequest httpServletRequest;
 
     public TaskService(TaskDBService taskDBService) {
         this.taskDBService = taskDBService;
@@ -58,7 +63,7 @@ public class TaskService {
                 log.info("task has found by id");
                 return new ResponseEntity<>(byIDTask, HttpStatus.OK);
             } else {
-                log.info("couldn't find by id{}",id);
+                log.info("couldn't find by id{}", id);
                 return new ResponseEntity<>(Optional.empty(), HttpStatus.NO_CONTENT);
             }
 
@@ -69,32 +74,27 @@ public class TaskService {
 
     }
 
-    public ResponseEntity<?> getByIDUser(long idUser) {
+    public List<Task> getByIDUser(long idUser) {
         try {
             log.info("trying to get  taskList by  idUser");
             List<Task> taskList = taskDBService.getByIdUser(idUser);
-            if (!taskList.isEmpty()) {
-                log.info("taskList has found by idUser");
-                return new ResponseEntity<>(taskList, HttpStatus.OK);
-            } else {
-                log.info("couldn't find by id{}",idUser);
-                return new ResponseEntity<>(Optional.empty(), HttpStatus.NO_CONTENT);
-            }
-
+//            httpServletRequest.setAttribute("taskList", taskList);
+            return taskList;
         } catch (Exception e) {
             log.error("error get by idUser o taskList{}{}", e, e);
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }    }
+            return new ArrayList<>();
+        }
+    }
 
     public ResponseEntity<?> getByStatus(long status) {
         try {
             log.info("trying to get  taskList by  status");
             List<Task> taskList = taskDBService.getByStatus(status);
             if (!taskList.isEmpty()) {
-                log.info("taskList has found by status{}",status);
+                log.info("taskList has found by status{}", status);
                 return new ResponseEntity<>(taskList, HttpStatus.OK);
             } else {
-                log.info("couldn't find by status{}",status);
+                log.info("couldn't find by status{}", status);
                 return new ResponseEntity<>(Optional.empty(), HttpStatus.NO_CONTENT);
             }
 
@@ -109,10 +109,10 @@ public class TaskService {
             log.info("trying to complete  task by  idTask");
             Optional<Task> updatedTask = taskDBService.complete(idTask);
             if (updatedTask.isPresent()) {
-                log.info("task has updated complete by idTask{}",idTask);
+                log.info("task has updated complete by idTask{}", idTask);
                 return new ResponseEntity<>(updatedTask, HttpStatus.OK);
             } else {
-                log.info("couldn't update by idTask{}",idTask);
+                log.info("couldn't update by idTask{}", idTask);
                 return new ResponseEntity<>(Optional.empty(), HttpStatus.NO_CONTENT);
             }
 

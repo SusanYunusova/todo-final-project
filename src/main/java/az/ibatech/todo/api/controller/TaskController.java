@@ -2,32 +2,41 @@ package az.ibatech.todo.api.controller;
 
 import az.ibatech.todo.api.service.TaskService;
 import az.ibatech.todo.db.entities.Task;
+import az.ibatech.todo.db.entities.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Optional;
+
+@Controller
 @RequestMapping("/task")
 @Slf4j
 public class TaskController {
-private final TaskService taskService;
+    private final TaskService taskService;
 
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
 
     @GetMapping("/add")
-    public ResponseEntity<?> create(@RequestBody Task task){
-       log.info("creating task..");
-       return taskService.saveOrUpdate(task);
+    public ResponseEntity<?> create(@RequestBody Task task) {
+        log.info("creating task..");
+        return taskService.saveOrUpdate(task);
     }
+
     @PutMapping("update")
-    public ResponseEntity<?> update(@RequestBody Task task){
+    public ResponseEntity<?> update(@RequestBody Task task) {
         log.info("updating task..");
         return taskService.saveOrUpdate(task);
     }
+
     @DeleteMapping("/delete/{idTask}")
-    public ResponseEntity<?> update (@PathVariable long idTask){
+    public ResponseEntity<?> update(@PathVariable long idTask) {
         log.info("deleting task..");
         return taskService.delete(idTask);
     }
@@ -38,24 +47,35 @@ private final TaskService taskService;
     //todo idsi loggedun idsi olan statusu done olan isDelete 0 tasklarn listi
 
     @GetMapping("/getById/{idTask}")
-    public ResponseEntity<?> getById(@PathVariable long idTask){
+    public ResponseEntity<?> getById(@PathVariable long idTask) {
         log.info("trying to get task by idTask");
         return taskService.getByID(idTask);
     }
-    @GetMapping("/getByIdUser/{idUser}")
-    public ResponseEntity<?> getByIdUser(@PathVariable long idUser){
-        log.info("trying to get taskList by idUser");
-        return taskService.getByIDUser(idUser);
-    }
 
-//    int status (default-0,deleted-1,overdue-2,today-3,done-4)
+    //    @GetMapping("/getByIdUser/{idUser}")
+//    public ResponseEntity<?> getByIdUser(@PathVariable long idUser){
+//        log.info("trying to get taskList by idUser");
+//        return taskService.getByIDUser(idUser);
+//    }
+//    @GetMapping("/dashboard")
+//    public String dashboard(Model model, HttpSession httpSession) {
+//        log.info("going to dashboard page...");
+////        User user = (User) httpSession.getAttribute("user");
+////        log.info("user dashboard:{}",user.getTaskList().size());
+////        List<Task> taskList = taskService.getByIDUser(user.getIdUser());
+////        model.addAttribute("taskList",taskList);
+//        return "tasks-dashboard";
+//    }
+
+    //    int status (default-0,deleted-1,overdue-2,today-3,done-4)
     @GetMapping("/getByStatus/{status}")
-    public ResponseEntity<?> getByStatus(@PathVariable long status){
+    public ResponseEntity<?> getByStatus(@PathVariable long status) {
         log.info("trying to get taskList by status");
         return taskService.getByStatus(status);
     }
+
     @GetMapping("/complete/{idTask}")
-    public ResponseEntity<?> complete(@PathVariable long idTask){
+    public ResponseEntity<?> complete(@PathVariable long idTask) {
         log.info("trying to get complete by idTask");
         return taskService.complete(idTask);
     }

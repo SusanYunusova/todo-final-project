@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,15 +39,15 @@
 
 
 
-
-                <form action="#" class="login-form" id="login-form">
+                <form method="get" action="/signIn" class="login-form" id="login-form">
                     <div class="text-input-container @@complete">
     <span class="text-input-icon">
         <span>
             <img src="/static/img/icons/email.png" alt="">
         </span>
     </span>
-                        <input type="email" class="form-control @@complete" placeholder="Email address" value="">
+                        <span th:text="${#httpServletRequest.getAttribute('errorMessage')}"></span>
+                        <input type="email"  name="email" class="form-control @@complete" placeholder="Email address" value="">
 
 
 
@@ -57,7 +57,7 @@
             <img src="/static/img/icons/password.png" alt="">
         </span>
     </span>
-                    <input type="password" class="form-control @@complete" placeholder="Password" value="">
+                    <input type="password" name="password" class="form-control @@complete" placeholder="Password" value="">
 
 
 
@@ -73,7 +73,8 @@
                     </div>
 
                     <div class="button-container">
-                        <a href="/templates/landing.html" class="btn btn-dark">Login now</a>
+                        <button type="submit"  class="btn btn-dark" value="Login">
+                        </button>
 
                         <a href="/signUp" class="btn btn-light">Create account</a>
 

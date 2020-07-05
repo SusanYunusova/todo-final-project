@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,62 +51,23 @@
         </div>
 
         <div class="tasks-list">
-			<div class="task">
-				<h4 class="task-title">Task 001</h4>
-				<p class="task-start-time">21.06.2020</p>
-				<p class="task-deadline">Deadline to: <span class="task-deadline-date">30.06.2020</span></p>
-				<p class="task-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim</p>
+
+			<div class="task" th:each="task :${session.user.getTaskList()}">
+				<h4 class="task-title"th:text="${task.getTaskName()}"></h4>
+				<p class="task-start-time" th:text="${task.getCreatedTime()}"></p>
+				<p class="task-deadline">Deadline to: <span class="task-deadline-date"th:text="${task.getDeadline()}"></span></p>
+				<p class="task-description" th:text="${task.getDescription()}"></p>
 				<div class="task-icons">
 					<img class="task-icons-item" src="../static/img/bell.png" alt="bell">
 					<img class="task-icons-item" src="../static/img/trash-bin.png" alt="bell">
 				</div>
 				<a href="#" class="task-btn">Complete</a>
 			</div>
-			<div class="task">
-				<h4 class="task-title">Task 002</h4>
-				<p class="task-start-time">21.06.2020</p>
-				<p class="task-deadline">Deadline to: <span class="task-deadline-date">30.06.2020</span></p>
-				<p class="task-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim</p>
-				<div class="task-icons">
-					<img class="task-icons-item" src="../static/img/bell.png" alt="bell">
-					<img class="task-icons-item" src="../static/img/trash-bin.png" alt="bell">
-				</div>
-				<a href="#" class="task-btn">Complete</a>
-			</div>
-			<div class="task">
-				<h4 class="task-title">Task 003</h4>
-				<p class="task-start-time">21.06.2020</p>
-				<p class="task-deadline">Deadline to: <span class="task-deadline-date">30.06.2020</span></p>
-				<p class="task-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim</p>
-				<div class="task-icons">
-					<img class="task-icons-item" src="../static/img/bell.png" alt="bell">
-					<img class="task-icons-item" src="../static/img/trash-bin.png" alt="bell">
-				</div>
-				<a href="#" class="task-btn">Complete</a>
-			</div>
-			<div class="task">
-				<h4 class="task-title">Task 004</h4>
-				<p class="task-start-time">21.06.2020</p>
-				<p class="task-deadline">Deadline to: <span class="task-deadline-date">30.06.2020</span></p>
-				<p class="task-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim</p>
-				<div class="task-icons">
-					<img class="task-icons-item" src="../static/img/bell.png" alt="bell">
-					<img class="task-icons-item" src="../static/img/trash-bin.png" alt="bell">
-				</div>
-				<a href="#" class="task-btn">Complete</a>
-       		</div>
-			<div class="task">
-				<h4 class="task-title">Task 005</h4>
-				<p class="task-start-time">21.06.2020</p>
-				<p class="task-deadline">Deadline to: <span class="task-deadline-date">30.06.2020</span></p>
-				<p class="task-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim</p>
-				<div class="task-icons">
-					<img class="task-icons-item" src="../static/img/bell.png" alt="bell">
-					<img class="task-icons-item" src="../static/img/trash-bin.png" alt="bell">
-				</div>
-				<a href="#" class="task-btn">Complete</a>
-       		</div>
+
         </div>
+
+
+
 
    		<div class="task-card-section">
    			<h3 class="task-card-title">Task 002</h3>

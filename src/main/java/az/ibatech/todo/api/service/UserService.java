@@ -5,10 +5,12 @@ import az.ibatech.todo.db.service.impl.UserDBService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Optional;
@@ -19,6 +21,8 @@ public class UserService {
 
     @Autowired
     ObjectFactory<HttpSession> httpSessionObjectFactory;
+    @Autowired
+    private HttpServletRequest httpServletRequest;
 
     private final UserDBService userDBService;
 
@@ -45,13 +49,15 @@ public class UserService {
         try {
             log.info("trying to get by email and password");
            Optional<User> user= userDBService.getByEmailAndPassword(email,password);
+                HttpSession session = httpSessionObjectFactory.getObject();
             if (user.isPresent()){
                 log.info("user found going to landing..");
-                HttpSession session = httpSessionObjectFactory.getObject();
-                session.setAttribute("user", user);
+                session.setAttribute("user", user.get());
                 return "landing";
             }else {
+
                 log.info("user not found by email and password...");
+                httpServletRequest.setAttribute("errorMessage","No user found with given criteria");
                 return "index";
             }
         }catch (Exception e){
@@ -79,7 +85,7 @@ public class UserService {
 
             }
             HttpSession session = httpSessionObjectFactory.getObject();
-            session.setAttribute("user", user);
+            session.setAttribute("user", user.get());
             return "landing";
         } catch (Exception e) {
             log.error("error get By email{}", e, e);
