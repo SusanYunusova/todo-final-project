@@ -34,38 +34,44 @@ public class UserService {
                 log.info("trying to save or update USer");
                 Optional<User> savedUser = userDBService.saveUpdate(user);
                 return savedUser;
-//                return new ResponseEntity<>(savedUser, HttpStatus.OK);
-            }else {
-//                return new ResponseEntity<>(Optional.empty(),HttpStatus.ALREADY_REPORTED);
             }
         } catch (Exception e) {
             log.error("error save or update user{}{}", e, e);
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return null;
-//        return user;
+        return Optional.empty();
     }
 
-
-
-    public String getByEmail(HashMap data){
-        log.info("trying to get by email");
-        Optional<User> user = userDBService.getByEmail((String)data.get("id"));
-        if(!user.isPresent()){
-            log.info("user not found tryint to insert");
-            user = saveOrUpdate(
-                    User
-                            .builder()
-                            .email((String) data.get("id"))
-                            .fullName((String) data.get("name"))
-                            .password((String) data.get("id"))
-                            .build()
-            );
-
+    public String getByEmailAndPassword(String email, String password) {
+        try {
+            log.info("t");
         }
-        HttpSession session = httpSessionObjectFactory.getObject();
-        session.setAttribute("user",user);
-        return "landing";
+
+    }
+
+    public String getByEmail(HashMap data) {
+        try {
+
+            log.info("trying to get by email");
+            Optional<User> user = userDBService.getByEmail((String) data.get("id"));
+            if (!user.isPresent()) {
+                log.info("user not found tryint to insert");
+                user = saveOrUpdate(
+                        User
+                                .builder()
+                                .email((String) data.get("id"))
+                                .fullName((String) data.get("name"))
+                                .password((String) data.get("id"))
+                                .build()
+                );
+
+            }
+            HttpSession session = httpSessionObjectFactory.getObject();
+            session.setAttribute("user", user);
+            return "landing";
+        } catch (Exception e) {
+            log.error("error get By email{}", e, e);
+            return "index";
+        }
     }
 
     public ResponseEntity<?> delete(long idUser) {
@@ -73,7 +79,7 @@ public class UserService {
             log.info("trying to delete  USer by  id");
             Optional<User> byIDUser = userDBService.getById(idUser);
             if (byIDUser.isPresent()) {
-               userDBService.delete(byIDUser.get());
+                userDBService.delete(byIDUser.get());
                 return new ResponseEntity<>("deleted", HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("couldn't find", HttpStatus.NO_CONTENT);
@@ -93,7 +99,7 @@ public class UserService {
                 log.info("user has found by id");
                 return new ResponseEntity<>(byIDUser, HttpStatus.OK);
             } else {
-                log.info("couldn't find by id{}",idUser);
+                log.info("couldn't find by id{}", idUser);
                 return new ResponseEntity<>(Optional.empty(), HttpStatus.NO_CONTENT);
             }
 
