@@ -52,20 +52,6 @@ public class TaskController {
         return taskService.getByID(idTask);
     }
 
-    //    @GetMapping("/getByIdUser/{idUser}")
-//    public ResponseEntity<?> getByIdUser(@PathVariable long idUser){
-//        log.info("trying to get taskList by idUser");
-//        return taskService.getByIDUser(idUser);
-//    }
-//    @GetMapping("/dashboard")
-//    public String dashboard(Model model, HttpSession httpSession) {
-//        log.info("going to dashboard page...");
-////        User user = (User) httpSession.getAttribute("user");
-////        log.info("user dashboard:{}",user.getTaskList().size());
-////        List<Task> taskList = taskService.getByIDUser(user.getIdUser());
-////        model.addAttribute("taskList",taskList);
-//        return "tasks-dashboard";
-//    }
 
     //    int status (default-0,deleted-1,overdue-2,today-3,done-4)
     @GetMapping("/getByStatus/{status}")
@@ -79,11 +65,6 @@ public class TaskController {
         log.info("trying to get complete by idTask");
         return taskService.complete(idTask);
     }
-//same with get by status
-//    @GetMapping("/archive/{idUser}")
-//    public ResponseEntity<?> getArchive(@PathVariable long idUser){
-//        log.info("trying to get archieve by idUser");
-//        return taskService.getArchive(idUser);
-//    }
+
 
 }

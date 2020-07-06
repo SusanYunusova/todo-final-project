@@ -25,6 +25,7 @@ public class OAuth2Configuration extends WebSecurityConfigurerAdapter {
                         "/signIn**",
                         "/signUp**",
                         "/task/**",
+                        "/addTask/**",
 
                         "/dashboard**",
                         "/resetPassword**",

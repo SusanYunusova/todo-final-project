@@ -18,7 +18,7 @@
 		<div class="main-header-profile-wrapper">
 			<div class="main-header-profile-credentials">
 				<span class="main-header-profile-welcome">Welcome,</span>
-				<span class="main-header-username">Sample User</span>
+				<span class="main-header-username" th:text="${session.user.getFullName()}">Sample User</span>
 			</div>
 			<img class="main-header-user-icon" src="../static/img/user-icon-with-background.svg" alt="User Icon">
 			<div class="hidden-accordion-wrapper">
@@ -46,7 +46,7 @@
 						<option class="tasks-filter-item" value="done">Done</option>
 					</select>
                 </form>
-                <a href="add-task.html" class="btn btn-dark btn-add-task">Add task</a>
+                <a href="/addTask" class="btn btn-dark btn-add-task">Add task</a>
             </div>
         </div>
 
