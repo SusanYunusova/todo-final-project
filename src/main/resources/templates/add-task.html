@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +18,7 @@
 		<div class="main-header-profile-wrapper">
 			<div class="main-header-profile-credentials">
 				<span class="main-header-profile-welcome">Welcome,</span>
-				<span class="main-header-username">Sample User</span>
+				<span class="main-header-username" th:text="${session.user.getFullName()}">Sample User</span>
 			</div>
 			<img class="main-header-user-icon" src="img/user-icon-with-background.svg" alt="User Icon">
 			<div class="hidden-accordion-wrapper">
@@ -45,20 +45,20 @@
    				<div class="task-card-left-col">
    					<div class="task-card-img _2"></div>
    					<div class="task-card-form">
+   				<form class="task-card-right-col" method="get" action="/createTask">
 						<div class="task-card-form-row">
-							<label for="task-card-date" class="task-card-label">Deadline to:</label>
-							<input id = "task-card-date" name="task-card-date" type="date" value="2020-06-30" class="task-card-input">
+							<label for="task-card-date" class="task-card-label" >Deadline to:</label>
+							<input id = "task-card-date" name="deadline" type="date" value="2020-06-30" class="task-card-input">
 						</div>
 						<div class="task-card-form-row">
-							<label for="name-task" class="task-card-label">Name Task</label>
-							<input id = "name-task" name="name-task" type="text" placeholder="Task 002" class="task-card-input">
+							<label for="name-task" class="task-card-label" >Name Task</label>
+							<input id = "name-task" name="taskName" type="text" placeholder="Task 002" class="task-card-input">
 						</div>
    					</div>
    				</div>
-   				<form class="task-card-right-col">
    					<label class="task-card-header">Task Description</label>
-   					<textarea class="task-card-textarea" name="new-task-text" id="" placeholder="What do you want to get done"></textarea>
-  					<button class="btn btn-dark btn-task-card">Create task</button>
+   					<textarea class="task-card-textarea" name="description" id="" placeholder="What do you want to get done"></textarea>
+  					<button class="btn btn-dark btn-task-card" type="submit">Create task</button>
    				</form>
    			</div>
     	</div>

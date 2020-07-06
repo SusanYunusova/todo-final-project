@@ -4,53 +4,81 @@ import az.ibatech.todo.api.service.TaskService;
 import az.ibatech.todo.db.entities.Task;
 import az.ibatech.todo.db.entities.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/task")
+//@RequestMapping("/task")
 @Slf4j
 public class TaskController {
     private final TaskService taskService;
-
+    @Autowired
+    ObjectFactory<HttpSession> httpSessionObjectFactory;
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
 
-    @GetMapping("/add")
-    public ResponseEntity<?> create(@RequestBody Task task) {
-        log.info("creating task..");
-        return taskService.saveOrUpdate(task);
+    @GetMapping("/createTask")
+    public String login(
+                        @RequestParam String deadline,
+                        @RequestParam String taskName,
+                        @RequestParam String description) throws ParseException {
+        log.info("trying to add task ");
+        HttpSession session = httpSessionObjectFactory.getObject();
+        User user = (User) session.getAttribute("user");
+        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(deadline);
+        Task task = Task.builder()
+                .createdTime(new Date())
+                .deadline(date1)
+                .taskName(taskName)
+                .description(description)
+                .idUser(user)
+                .build();
+        log.info("created task:{}",task.getTaskName());
+        taskService.saveOrUpdate(task);
+        return "tasks-dashboard";
+
     }
 
-    @PutMapping("update")
-    public ResponseEntity<?> update(@RequestBody Task task) {
-        log.info("updating task..");
-        return taskService.saveOrUpdate(task);
-    }
-
-    @DeleteMapping("/delete/{idTask}")
-    public ResponseEntity<?> update(@PathVariable long idTask) {
-        log.info("deleting task..");
-        return taskService.delete(idTask);
-    }
+//    @GetMapping("/add")
+//    public ResponseEntity<?> create(@RequestBody Task task) {
+//        log.info("creating task..");
+//        return taskService.saveOrUpdate(task);
+//    }
+//
+//    @PutMapping("update")
+//    public ResponseEntity<?> update(@RequestBody Task task) {
+//        log.info("updating task..");
+//        return taskService.saveOrUpdate(task);
+//    }
+//
+//    @DeleteMapping("/delete/{idTask}")
+//    public ResponseEntity<?> update(@PathVariable long idTask) {
+//        log.info("deleting task..");
+//        return taskService.delete(idTask);
+//    }
     //todo search
     //todo by idUSer list task
     //todo getByStatus/{status} return listtask
     //todo complite task id ni gonder bu idli taskin icindeki statusu done ele
     //todo idsi loggedun idsi olan statusu done olan isDelete 0 tasklarn listi
 
-    @GetMapping("/getById/{idTask}")
-    public ResponseEntity<?> getById(@PathVariable long idTask) {
-        log.info("trying to get task by idTask");
-        return taskService.getByID(idTask);
-    }
+//    @GetMapping("/getById/{idTask}")
+//    public ResponseEntity<?> getById(@PathVariable long idTask) {
+//        log.info("trying to get task by idTask");
+//        return taskService.getByID(idTask);
+//    }
 
 
     //    int status (default-0,deleted-1,overdue-2,today-3,done-4)
