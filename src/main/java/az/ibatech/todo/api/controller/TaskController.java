@@ -1,6 +1,7 @@
 package az.ibatech.todo.api.controller;
 
 import az.ibatech.todo.api.service.TaskService;
+import az.ibatech.todo.api.service.UserService;
 import az.ibatech.todo.db.entities.Task;
 import az.ibatech.todo.db.entities.User;
 import lombok.extern.slf4j.Slf4j;
@@ -8,25 +9,24 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 @Controller
 //@RequestMapping("/task")
 @Slf4j
 public class TaskController {
     private final TaskService taskService;
+    private  final UserService userService;
     @Autowired
     ObjectFactory<HttpSession> httpSessionObjectFactory;
-    public TaskController(TaskService taskService) {
+    public TaskController(TaskService taskService, UserService userService) {
         this.taskService = taskService;
+        this.userService = userService;
     }
 
     @GetMapping("/createTask")
@@ -47,6 +47,9 @@ public class TaskController {
                 .build();
         log.info("created task:{}",task.getTaskName());
         taskService.saveOrUpdate(task);
+        User newUser = (User) userService.getByID(user.getIdUser()).getBody();
+        session.setAttribute("user",newUser);
+        session.setAttribute("task",task);
         return "tasks-dashboard";
 
     }

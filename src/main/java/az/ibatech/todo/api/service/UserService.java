@@ -116,7 +116,7 @@ public class UserService {
             Optional<User> byIDUser = userDBService.getById(idUser);
             if (byIDUser.isPresent()) {
                 log.info("user has found by id");
-                return new ResponseEntity<>(byIDUser, HttpStatus.OK);
+                return new ResponseEntity<>(byIDUser.get(), HttpStatus.OK);
             } else {
                 log.info("couldn't find by id{}", idUser);
                 return new ResponseEntity<>(Optional.empty(), HttpStatus.NO_CONTENT);
