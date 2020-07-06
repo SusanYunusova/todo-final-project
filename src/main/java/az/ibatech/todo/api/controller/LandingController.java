@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 public class LandingController {
 
+
     @GetMapping("/dashboard")
     public String dashboard() {
         log.info("going to dashboard page...");
