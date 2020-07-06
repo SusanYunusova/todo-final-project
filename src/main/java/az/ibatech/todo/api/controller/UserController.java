@@ -1,6 +1,7 @@
 package az.ibatech.todo.api.controller;
 
 import az.ibatech.todo.api.service.UserService;
+import az.ibatech.todo.db.entities.Task;
 import az.ibatech.todo.db.entities.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.security.Principal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -27,7 +31,22 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/createUser")
+    public String login(
+            @RequestParam String fullName,
+            @RequestParam String email,
+            @RequestParam String password)  {
+        log.info("trying to create new User ");
+        User user = User.builder()
+                .email(email)
+                .fullName(fullName)
+                .password(password)
+                .build();
+        log.info("created user:{}",user.getFullName());
+        userService.saveOrUpdate(user);
+        return "index";
 
+    }
 
 
 

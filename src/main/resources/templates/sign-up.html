@@ -40,14 +40,14 @@
                 
                                 
                 
-                    <form action="#" class="sign-up-form" id="sign-up-form">
+                    <form action="/createUser" method="get" class="sign-up-form" id="sign-up-form">
     <div class="text-input-container @@complete">
     <span class="text-input-icon">
         <span>
             <img src="../static/img/icons/user.png" alt="">
         </span>        
     </span>
-    <input type="text" class="form-control @@complete" placeholder="Full name" value="">
+    <input type="text" name="fullName" class="form-control @@complete" placeholder="Full name" value="">
     
 
         
@@ -57,7 +57,7 @@
             <img src="../static/img/icons/email.png" alt="">
         </span>        
     </span>
-    <input type="email" class="form-control @@complete" placeholder="Email address" value="">
+    <input type="email" name="email" class="form-control @@complete" placeholder="Email address" value="">
     
 
         
@@ -67,7 +67,7 @@
             <img src="../static/img/icons/password.png" alt="">
         </span>        
     </span>
-    <input type="password" class="form-control @@complete" placeholder="Password" value="">
+    <input type="password" name="password" class="form-control @@complete" placeholder="Password" value="">
     
 
         
@@ -84,7 +84,7 @@
 </div>
 
     <div class="button-container">
-        <button class="btn btn-dark">Create account</button>
+        <button type="submit" class="btn btn-dark">Create account</button>
     </div>
 </form>
 
