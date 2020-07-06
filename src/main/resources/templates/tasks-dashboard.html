@@ -52,7 +52,7 @@
 
         <div class="tasks-list">
 
-			<div class="task" th:each="task :${session.user.getTaskList()}" onclick="this">
+			<div class="task" th:each="task :${session.user.getTaskList()}" onclick="">
 				<h4 class="task-title"th:text="${task.getTaskName()}"></h4>
 				<p class="task-start-time" th:text="${task.getCreatedTime()}"></p>
 				<p class="task-deadline">Deadline to: <span class="task-deadline-date"th:text="${task.getDeadline()}"></span></p>
