@@ -20,18 +20,20 @@ public class IndexController {
     public IndexController(UserService userService) {
         this.userService = userService;
     }
+
     @GetMapping("index")
     public String indexPage() {
         return "index";
     }
-//
-@GetMapping("/user")
-public String getUser(Principal principal) {
-    log.info("loginfb...{}", principal);
-    Authentication a = SecurityContextHolder.getContext().getAuthentication();
-    HashMap data = (HashMap) ((OAuth2Authentication) a).getUserAuthentication().getDetails();
-    return userService.getByEmail(data);
-}
+
+    //
+    @GetMapping("/user")
+    public String getUser(Principal principal) {
+        log.info("loginfb...{}", principal);
+        Authentication a = SecurityContextHolder.getContext().getAuthentication();
+        HashMap data = (HashMap) ((OAuth2Authentication) a).getUserAuthentication().getDetails();
+        return userService.getByEmail(data);
+    }
 
     @GetMapping("/signUp")
     public String signUp() {
@@ -47,9 +49,9 @@ public String getUser(Principal principal) {
     }
 
     @GetMapping("/signIn")
-    public String login(@RequestParam String email, @RequestParam String password){
+    public String login(@RequestParam String email, @RequestParam String password) {
         log.info("trying to login by email and password");
-        return   userService.getByEmailAndPassword(email,password);
+        return userService.getByEmailAndPassword(email, password);
 
     }
 }

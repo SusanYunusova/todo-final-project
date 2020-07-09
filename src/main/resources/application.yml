@@ -30,7 +30,19 @@ spring:
         content:
           enabled: true
           paths: /**
+  mail:
+    host: smtp.gmail.com
+    username: xxx@gmail.com
+    password: xxxxxxxxxxxxx
+    port: 587
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+
 
 
 server:
   port: 9606
+

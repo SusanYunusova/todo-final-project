@@ -112,7 +112,7 @@ public class UserService {
 
     public ResponseEntity<?> getByID(long idUser) {
         try {
-            log.info("trying to get  USer by  id");
+            log.info("trying to get  User by  id");
             Optional<User> byIDUser = userDBService.getById(idUser);
             if (byIDUser.isPresent()) {
                 log.info("user has found by id");
