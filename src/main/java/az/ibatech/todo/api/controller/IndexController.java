@@ -1,5 +1,6 @@
 package az.ibatech.todo.api.controller;
 
+import az.ibatech.todo.api.service.NotificationService;
 import az.ibatech.todo.api.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -16,9 +17,11 @@ import java.util.HashMap;
 @Slf4j
 public class IndexController {
     private final UserService userService;
+    private final NotificationService notificationService;
 
-    public IndexController(UserService userService) {
+    public IndexController(UserService userService, NotificationService notificationService) {
         this.userService = userService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping("index")

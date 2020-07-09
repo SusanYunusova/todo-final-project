@@ -1,4 +1,4 @@
-package az.ibatech.todo.db.config;
+package az.ibatech.todo.config;
 
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +25,7 @@ public class OAuth2Configuration extends WebSecurityConfigurerAdapter {
                         "/signIn**",
                         "/signUp**",
                         "/task/**",
+                        "/mail/**",
                         "/addTask/**",
                         "/createTask/**",
                         "/createUser/**",

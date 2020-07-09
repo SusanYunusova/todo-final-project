@@ -1,23 +1,13 @@
 package az.ibatech.todo.api.controller;
 
+import az.ibatech.todo.api.service.NotificationService;
 import az.ibatech.todo.api.service.UserService;
-import az.ibatech.todo.db.entities.Task;
 import az.ibatech.todo.db.entities.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
-import java.security.Principal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Optional;
 
 /**
  * localhost:2020/user
@@ -26,9 +16,11 @@ import java.util.Optional;
 @Slf4j
 public class UserController {
     private final UserService userService;
+    private final NotificationService notificationService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, NotificationService notificationService) {
         this.userService = userService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping("/createUser")
@@ -44,6 +36,24 @@ public class UserController {
                 .build();
         log.info("created user:{}",user.getFullName());
         userService.saveOrUpdate(user);
+        return "index";
+
+    }
+    @GetMapping("/mail")
+    public String mail()  {
+        log.info("trying to create new User ");
+        User user = User.builder()
+                .email("yunusova96.ys@gmail.com")
+                .fullName("Susan Yunusova")
+                .password("123")
+                .build();
+        try {
+            log.info("yaradilmish useri maile gonderrem ");
+            notificationService.sendNotification(user);
+        }catch (MailException e){
+            log.error("mail send error{}",e,e);
+
+        }
         return "index";
 
     }

@@ -32,8 +32,8 @@ spring:
           paths: /**
   mail:
     host: smtp.gmail.com
-    username: xxx@gmail.com
-    password: xxxxxxxxxxxxx
+    username: yunusova96.ys@gmail.com
+    password: 0558248326@suhe
     port: 587
     properties:
       mail:
