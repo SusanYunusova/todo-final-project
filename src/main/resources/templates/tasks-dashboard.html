@@ -3,48 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+          rel="stylesheet">
     <link rel="stylesheet" href="../static/css/main.css">
     <title>Tasks dashboard</title>
+    <!--    <script type="text/javascript" th:src="@{/js/scripts.js}"></script>-->
 </head>
 <body>
+
+<script type="text/javascript">
+    function showTaskDetail(task) {
+        // alert("Task show : "+task['taskName'])
+        document.getElementById("taskForEdit").attribute = task;
+
+    }
+
+    function load(form) {
+        // document.forms[form].submit();
+        window.location.href=form;
+    }
+
+</script>
+
+
 <header class="main-header">
-	<a href="tasks-dashboard.html" class="main-header-logo"><img src="../static/img/iba-tech-logo-white.svg" alt="IBA Tech Academy"></a>
-	<div class="main-header-wrapper">
-		<label class="main-header-search-wrapper">
-			<input type="search" class="main-header-search" placeholder="Search">
-			<img src="../static/img/search-icon.svg" alt="Search Icon">
-		</label>
-		<div class="main-header-profile-wrapper">
-			<div class="main-header-profile-credentials">
-				<span class="main-header-profile-welcome">Welcome,</span>
-				<span class="main-header-username" th:text="${session.user.getFullName()}">Sample User</span>
-			</div>
-			<img class="main-header-user-icon" src="../static/img/user-icon-with-background.svg" alt="User Icon">
-			<div class="hidden-accordion-wrapper">
-				<ul class="hidden-accordion">
-					<li class="hidden-accordion-item"><a href="tasks-archive.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="../static/img/archive-icon.svg" alt="User Icon">Archive</a></li>
-					<li class="hidden-accordion-item"><a href="tasks-dashboard.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="../static/img/favourite-icon.svg" alt="Favourite Icon">My tasks</a></li>
-					<li class="hidden-accordion-item"><a href="./login.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="../static/img/log-out-icon.svg" alt="Log Out Icon">Log Out</a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
+    <a href="tasks-dashboard.html" class="main-header-logo"><img src="../static/img/iba-tech-logo-white.svg"
+                                                                 alt="IBA Tech Academy"></a>
+    <div class="main-header-wrapper">
+        <label class="main-header-search-wrapper">
+            <input type="search" class="main-header-search" placeholder="Search">
+            <img src="../static/img/search-icon.svg" alt="Search Icon">
+        </label>
+        <div class="main-header-profile-wrapper">
+            <div class="main-header-profile-credentials">
+                <span class="main-header-profile-welcome">Welcome,</span>
+                <span class="main-header-username" th:text="${session.user.getFullName()}">Sample User</span>
+            </div>
+            <img class="main-header-user-icon" src="../static/img/user-icon-with-background.svg" alt="User Icon">
+            <div class="hidden-accordion-wrapper">
+                <ul class="hidden-accordion">
+                    <li class="hidden-accordion-item"><a href="tasks-archive.html"
+                                                         class="hidden-accordion-item-link"><img
+                            class="hidden-accordion-item-image" src="../static/img/archive-icon.svg" alt="User Icon">Archive</a>
+                    </li>
+                    <li class="hidden-accordion-item"><a href="tasks-dashboard.html" class="hidden-accordion-item-link"><img
+                            class="hidden-accordion-item-image" src="../static/img/favourite-icon.svg"
+                            alt="Favourite Icon">My tasks</a></li>
+                    <li class="hidden-accordion-item"><a href="./login.html" class="hidden-accordion-item-link"><img
+                            class="hidden-accordion-item-image" src="../static/img/log-out-icon.svg" alt="Log Out Icon">Log
+                        Out</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </header>
 
-    <section class="tasks">
+
+<section class="tasks">
     <div class="container">
         <div class="tasks-caption">
             <h2 class="tasks-caption-title">Dashboard</h2>
             <div class="tasks-caption-actions">
                 <form class="tasks-filter" action="" id="sort-tasks">
-					<label for="task-type" class="tasks-filter-label">Sort by</label>
-					<select class="tasks-filter-list" name="task-type" id="">
-						<option class="tasks-filter-item" value="deleted">Deleted</option>
-						<option class="tasks-filter-item" value="overdue">Overdue</option>
-						<option class="tasks-filter-item" value="today">Today</option>
-						<option class="tasks-filter-item" value="done">Done</option>
-					</select>
+                    <label for="task-type" class="tasks-filter-label">Sort by</label>
+                    <select class="tasks-filter-list" name="task-type" id="">
+                        <option class="tasks-filter-item" value="deleted">Deleted</option>
+                        <option class="tasks-filter-item" value="overdue">Overdue</option>
+                        <option class="tasks-filter-item" value="today">Today</option>
+                        <option class="tasks-filter-item" value="done">Done</option>
+                    </select>
                 </form>
                 <a href="/addTask" class="btn btn-dark btn-add-task">Add task</a>
             </div>
@@ -52,65 +79,80 @@
 
         <div class="tasks-list">
 
-			<div class="task" th:each="task :${session.user.getTaskList()}" onclick="">
-				<h4 class="task-title"th:text="${task.getTaskName()}"></h4>
-				<p class="task-start-time" th:text="${task.getCreatedTime()}"></p>
-				<p class="task-deadline">Deadline to: <span class="task-deadline-date"th:text="${task.getDeadline()}"></span></p>
-				<p class="task-description" th:text="${task.getDescription()}"></p>
-				<div class="task-icons">
-					<img class="task-icons-item" src="../static/img/bell.png" alt="bell">
-					<img class="task-icons-item" src="../static/img/trash-bin.png" alt="bell">
-				</div>
-				<a href="#" class="task-btn">Complete</a>
-			</div>
+            <!--                     th:attr="onclick=|loadContent('${task.getTaskName()}')|">-->
+            <!--            <div class="task" th:onclick="showTaskDetail([[${task}]])" th:attr="taskForEdit=${task}">-->
+            <nav th:each="task :${session.user.getTaskList()}">
+                    <div class="task" th:onclick="load('/taskEdit/'+ [[${task.getIdTask()}]])">
+                        <h4 class="task-title" th:text="${task.getTaskName()}"></h4>
+                        <p class="task-start-time" th:text="${task.getCreatedTime()}"></p>
+                        <p class="task-deadline">Deadline to: <span class="task-deadline-date"
+                                                                    th:text="${task.getDeadline()}"></span></p>
+                        <p class="task-description" th:text="${task.getDescription()}"></p>
+                        <div class="task-icons">
+                            <img class="task-icons-item" src="../static/img/bell.png" alt="bell">
+                            <img class="task-icons-item" src="../static/img/trash-bin.png" alt="bell">
+                        </div>
+                        <a href="#" class="task-btn">Complete</a>
+                    </div>
+            </nav>
+            <!--            <nav th:each="task :${session.user.getTaskList()}">-->
+            <!--			<div class="task" th:each="task :${session.user.getTaskList()}" th:onclick="|loadContent('${task.getTaskName()}');|">-->
+            <!--				<h4 class="task-title"th:text="${task.getTaskName()}"></h4>-->
+            <!--				<p class="task-start-time" th:text="${task.getCreatedTime()}"></p>-->
+            <!--				<p class="task-deadline">Deadline to: <span class="task-deadline-date"th:text="${task.getDeadline()}"></span></p>-->
+            <!--				<p class="task-description" th:text="${task.getDescription()}"></p>-->
+            <!--				<div class="task-icons">-->
+            <!--					<img class="task-icons-item" src="../static/img/bell.png" alt="bell">-->
+            <!--					<img class="task-icons-item" src="../static/img/trash-bin.png" alt="bell">-->
+            <!--				</div>-->
+            <!--				<a href="#" class="task-btn">Complete</a>-->
+            <!--			</div>-->
+
+            <!--        </div>-->
+
+
+            <div class="task-card-section" th:if="${taskForEdit != null}" id="taskEdit">
+                <!--        <div class="task-card-section" id="taskEdit">-->
+                <h3 class="task-card-title" th:text="${taskForEdit.getTaskName()}">taskName</h3>
+                <div class="task-card">
+                    <div class="task-card-left-col">
+                        <div class="task-card-img _1"></div>
+                        <div class="task-card-form">
+                            <div class="task-card-form-row">
+                                <input name="task-card-date" type="date"  th:d#dates="${taskForEdit.getDeadline()}" class="task-card-input">
+                            </div>
+                            <div class="task-card-form-row">
+                                <label for="name-task" class="task-card-label">Name Task</label>
+                                <input name="name-task"   th:text="${taskForEdit.getDeadline()}" type="text" placeholder="task name" class="task-card-input">
+                            </div>
+                        </div>
+                        <div class="task-card-actions">
+                            <a href="#" class="task-card-actions-item">
+                                <img src="../static/img/arrow.png" alt="" class="task-card-actions-icon">
+                                Share
+                            </a>
+                            <a href="#" class="task-card-actions-item">
+                                <img src="../static/img/bell.png" alt="" class="task-card-actions-icon">
+                                Add to important
+                            </a>
+                            <a href="#" class="task-card-actions-item">
+                                <img src="../static/img/trash-bin.png" alt="" class="task-card-actions-icon">
+                                Delete
+                            </a>
+                        </div>
+                    </div>
+                    <div class="task-card-right-col">
+                        <h4 class="task-card-header" th:text="${taskForEdit?.getTaskName()}">Tasks Description</h4>
+                        <p class="task-card-text"  th:text="${taskForEdit.getDescription()}">
+
+                        </p>
+                        <a href="#" class="btn btn-dark btn-task-card">Save</a>
+                    </div>
+                </div>
+            </div>
 
         </div>
-
-
-
-
-   		<div class="task-card-section" >
-   			<h3 class="task-card-title">Task 002</h3>
-   			<div class="task-card">
-   				<div class="task-card-left-col">
-   					<div class="task-card-img _1"></div>
-   					<div class="task-card-form">
-						<div class="task-card-form-row">
-							<label for="task-card-date" class="task-card-label">Deadline to:</label>
-							<input name="task-card-date" type="date" value="2020-06-30" class="task-card-input">
-						</div>
-						<div class="task-card-form-row">
-							<label for="name-task" class="task-card-label">Name Task</label>
-							<input name="name-task" type="text" placeholder="Task 002" class="task-card-input">
-						</div>
-   					</div>
-   					<div class="task-card-actions">
-   						<a href="#" class="task-card-actions-item">
-   							<img src="../static/img/arrow.png" alt="" class="task-card-actions-icon">
-   							Share
-   						</a>
-   						<a href="#" class="task-card-actions-item">
-   							<img src="../static/img/bell.png" alt="" class="task-card-actions-icon">
-   							Add to important
-   						</a>
-   						<a href="#" class="task-card-actions-item">
-   							<img src="../static/img/trash-bin.png" alt="" class="task-card-actions-icon">
-   							Delete
-   						</a>
-   					</div>
-   				</div>
-   				<div class="task-card-right-col">
-   					<h4 class="task-card-header">Task Description</h4>
-   					<p class="task-card-text">
-   						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-					</p>
-  					<a href="#" class="btn btn-dark btn-task-card">Save</a>
-   				</div>
-   			</div>
-   		</div>
-   
-    </div>
 </section>
+
 </body>
 </html>

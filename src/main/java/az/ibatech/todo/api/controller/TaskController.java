@@ -9,6 +9,7 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -21,9 +22,10 @@ import java.util.Date;
 @Slf4j
 public class TaskController {
     private final TaskService taskService;
-    private  final UserService userService;
+    private final UserService userService;
     @Autowired
     ObjectFactory<HttpSession> httpSessionObjectFactory;
+
     public TaskController(TaskService taskService, UserService userService) {
         this.taskService = taskService;
         this.userService = userService;
@@ -31,13 +33,13 @@ public class TaskController {
 
     @GetMapping("/createTask")
     public String login(
-                        @RequestParam String deadline,
-                        @RequestParam String taskName,
-                        @RequestParam String description) throws ParseException {
+            @RequestParam String deadline,
+            @RequestParam String taskName,
+            @RequestParam String description) throws ParseException {
         log.info("trying to add task ");
         HttpSession session = httpSessionObjectFactory.getObject();
         User user = (User) session.getAttribute("user");
-        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(deadline);
+        Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(deadline);
         Task task = Task.builder()
                 .createdTime(new Date())
                 .deadline(date1)
@@ -45,13 +47,26 @@ public class TaskController {
                 .description(description)
                 .idUser(user)
                 .build();
-        log.info("created task:{}",task.getTaskName());
+        log.info("created task:{}", task.getTaskName());
         taskService.saveOrUpdate(task);
         User newUser = (User) userService.getByID(user.getIdUser()).getBody();
-        session.setAttribute("user",newUser);
-        session.setAttribute("task",task);
+        session.setAttribute("user", newUser);
+        session.setAttribute("task", task);
         return "tasks-dashboard";
 
+    }
+
+    //    @GetMapping("/taskEdit/{idTask}")
+//    public String editTask(@PathVariable long idTask, Model model){
+//        model.addAttribute("taskForEdit",Task.builder().idTask(idTask).taskName("For test from api").build());
+//        return "tasks-dashboard";
+//    }
+    @GetMapping("/taskEdit/{idTask}")
+    public String editTask(@PathVariable long idTask, Model model) {
+        Task task = taskService.getByID(idTask).getBody().get();
+        model.addAttribute("taskForEdit",task);
+//        model.addAttribute("taskForEdit", Task.builder().idTask(idTask).taskName("For test from api").build());
+        return "tasks-dashboard";
     }
 
 //    @GetMapping("/add")

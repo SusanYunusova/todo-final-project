@@ -55,7 +55,7 @@ public class TaskService {
         }
     }
 
-    public ResponseEntity<?> getByID(long id) {
+    public ResponseEntity<Optional<Task>> getByID(long id) {
         try {
             log.info("trying to get  task by  id");
             Optional<Task> byIDTask = taskDBService.getById(id);
