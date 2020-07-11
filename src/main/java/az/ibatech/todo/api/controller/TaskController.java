@@ -69,18 +69,23 @@ public class TaskController {
     }
     @GetMapping("/updateTask")
     public String updateTask(
-            @RequestParam String fullName,
-            @RequestParam String email,
-            @RequestParam String password)  {
-        log.info("trying to create new User ");
-        User user = User.builder()
-                .email(email)
-                .fullName(fullName)
-                .password(password)
+            @RequestParam String description,
+            @RequestParam String deadline,
+            @RequestParam String taskName) throws ParseException {
+        log.info("trying to update taskk by id Task ");
+        HttpSession session = httpSessionObjectFactory.getObject();
+        User user = (User) session.getAttribute("user");
+        Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(deadline);
+        Task task = Task.builder()
+                .idUser(user)
+                .idTask(1)
+                .description(description)
+                .taskName(taskName)
+                .deadline(date1)
                 .build();
-        log.info("created user:{}",user.getFullName());
-        userService.saveOrUpdate(user);
-        return "index";
+        log.info("created task:{}",task.getTaskName());
+        taskService.saveOrUpdate(task);
+        return "tasks-dashboard";
 
     }
 //    @GetMapping("/add")

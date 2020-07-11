@@ -95,7 +95,7 @@
                     <a href="#" class="task-btn">Complete</a>
                 </div>
             </nav>
-            <form action="/updateTask" method="get" id="update-task">
+            <form action="'/updateTask'" method="get" id="update-task">
 
                 <div class="task-card-section" th:if="${taskForEdit != null}" id="taskEdit">
                     <!--        <div class="task-card-section" id="taskEdit">-->
@@ -112,7 +112,7 @@
                             </div>
                             <div class="task-card-form-row">
                                 <label for="name-task" class="task-card-label">Name Task</label>
-                                <output name="name-task" th:text="${taskForEdit.getTaskName()}" type="text"
+                                <output name="taskName" th:text="${taskForEdit.getTaskName()}" type="text"
                                         class="task-card-input" contenteditable="true"></output>
                             </div>
                             <div class="task-card-actions">
@@ -143,8 +143,8 @@
                                     class="task-card-input" contenteditable="true"></output>
                         </div>
                         <div>
-                            <a href="#" class="btn btn-dark btn-task-card">Save</a>
-
+                            <!--                            <a href="/" class="btn btn-dark btn-task-card">Save</a>-->
+                            <button type="submit" class="btn btn-dark btn-task-card">Save</button>
                         </div>
                     </div>
                 </div>
