@@ -15,7 +15,7 @@ public class DashController {
     }
 
 
-    @GetMapping("/addTask")
+    @GetMapping("api/addTask")
     public String adTask() {
         return "add-task";
     }

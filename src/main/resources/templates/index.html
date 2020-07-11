@@ -39,7 +39,7 @@
 
 
 
-                <form method="get" action="/signIn" class="login-form" id="login-form">
+                <form method="get" action="api/signIn" class="login-form" id="login-form">
                     <div class="text-input-container @@complete">
     <span class="text-input-icon">
         <span>
@@ -69,14 +69,14 @@
                             <label class="checkbox-overlay" for="remember-user">Remember me</label>
                         </div>
 
-                        <a href="/resetPassword" class="form-link">Forgot password?</a>
+                        <a href="api/resetPassword" class="form-link">Forgot password?</a>
                     </div>
 
                     <div class="button-container">
-                        <button type="submit"  class="btn btn-dark" value="Login">
-                        </button>
 
-                        <a href="/signUp" class="btn btn-light">Create account</a>
+                        <button type="submit" class="btn btn-dark btn-task-card">Login</button>
+
+                        <a href="api/signUp" class="btn btn-light">Create account</a>
 
                     </div>
                 </form>
