@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
           rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/main.css">
+    <link rel="stylesheet" href="/static/css/main.css">
     <title>Tasks dashboard</title>
-    <!--    <script type="text/javascript" th:src="@{/js/scripts.js}"></script>-->
+    <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
 </head>
 <body>
 
@@ -22,35 +22,43 @@
         // document.forms[form].submit();
         window.location.href = form;
     }
-
 </script>
 
+<script type="text/javascript">
+    function setSelection() {
+        var index = document.getElementById("status").value;
+        var element = document.getElementById("task-type");
+        element.options[index].selected = true;
+    }
+
+    window.onload = setSelection;
+</script>
 
 <header class="main-header">
-    <a href="tasks-dashboard.html" class="main-header-logo"><img src="../static/img/iba-tech-logo-white.svg"
+    <a href="tasks-dashboard.html" class="main-header-logo"><img src="/static/img/iba-tech-logo-white.svg"
                                                                  alt="IBA Tech Academy"></a>
     <div class="main-header-wrapper">
         <label class="main-header-search-wrapper">
             <input type="search" class="main-header-search" placeholder="Search">
-            <img src="../static/img/search-icon.svg" alt="Search Icon">
+            <img src="/static/img/search-icon.svg" alt="Search Icon">
         </label>
         <div class="main-header-profile-wrapper">
             <div class="main-header-profile-credentials">
                 <span class="main-header-profile-welcome">Welcome,</span>
                 <span class="main-header-username" th:text="${session.user.getFullName()}">Sample User</span>
             </div>
-            <img class="main-header-user-icon" src="../static/img/user-icon-with-background.svg" alt="User Icon">
+            <img class="main-header-user-icon" src="/static/img/user-icon-with-background.svg" alt="User Icon">
             <div class="hidden-accordion-wrapper">
                 <ul class="hidden-accordion">
-                    <li class="hidden-accordion-item"><a href="tasks-archive.html"
+                    <li class="hidden-accordion-item"><a href="/api/task-archive/1"
                                                          class="hidden-accordion-item-link"><img
-                            class="hidden-accordion-item-image" src="../static/img/archive-icon.svg" alt="User Icon">Archive</a>
+                            class="hidden-accordion-item-image" src="/static/img/archive-icon.svg" alt="User Icon">Archive</a>
                     </li>
-                    <li class="hidden-accordion-item"><a href="tasks-dashboard.html" class="hidden-accordion-item-link"><img
-                            class="hidden-accordion-item-image" src="../static/img/favourite-icon.svg"
-                            alt="Favourite Icon">My tasks</a></li>
-                    <li class="hidden-accordion-item"><a href="./login.html" class="hidden-accordion-item-link"><img
-                            class="hidden-accordion-item-image" src="../static/img/log-out-icon.svg" alt="Log Out Icon">Log
+                    <!--                    <li class="hidden-accordion-item"><a href="tasks-dashboard.html" class="hidden-accordion-item-link"><img-->
+                    <!--                            class="hidden-accordion-item-image" src="/static/img/favourite-icon.svg"-->
+                    <!--                            alt="Favourite Icon">My tasks</a></li>-->
+                    <li class="hidden-accordion-item"><a href="/api/logOut" class="hidden-accordion-item-link"><img
+                            class="hidden-accordion-item-image" src="/static/img/log-out-icon.svg" alt="Log Out Icon">Log
                         Out</a></li>
                 </ul>
             </div>
@@ -60,20 +68,29 @@
 
 
 <section class="tasks">
+    <input type="hidden" th:value="${session.status}" id="status"/>
     <div class="container">
         <div class="tasks-caption">
             <h2 class="tasks-caption-title">Dashboard</h2>
             <div class="tasks-caption-actions">
                 <form class="tasks-filter" action="" id="sort-tasks">
                     <label for="task-type" class="tasks-filter-label">Sort by</label>
-                    <select class="tasks-filter-list" name="task-type" id="">
-                        <option class="tasks-filter-item" value="deleted">Deleted</option>
-                        <option class="tasks-filter-item" value="overdue">Overdue</option>
-                        <option class="tasks-filter-item" value="today">Today</option>
-                        <option class="tasks-filter-item" value="done">Done</option>
+                    <select class="tasks-filter-list" name="task-type" id="task-type"
+                            th:selected="${session.status}"
+                            th:value="*{session.status}"
+                            th:onchange="loadDashBoard()"
+
+                    >
+
+
+                        <option class="tasks-filter-item" value="0">All</option>
+                        <option class="tasks-filter-item" value="1">Deleted</option>
+                        <option class="tasks-filter-item" value="2">Overdue</option>
+                        <option class="tasks-filter-item" value="3">Today</option>
+                        <option class="tasks-filter-item" value="4">Done</option>
                     </select>
                 </form>
-                <a href="/addTask" class="btn btn-dark btn-add-task">Add task</a>
+                <a href="api/addTask" class="btn btn-dark btn-add-task">Add task</a>
             </div>
         </div>
 
@@ -82,75 +99,84 @@
             <!--                     th:attr="onclick=|loadContent('${task.getTaskName()}')|">-->
             <!--            <div class="task" th:onclick="showTaskDetail([[${task}]])" th:attr="taskForEdit=${task}">-->
             <nav th:each="task :${session.user.getTaskList()}">
-                <div class="task" th:onclick="load('/taskEdit/'+ [[${task.getIdTask()}]])">
+                <div  class="task" th:onclick="load('/api/taskEdit/'+ [[${task.getIdTask()}]])">
                     <h4 class="task-title" th:text="${task.getTaskName()}"></h4>
                     <p class="task-start-time" th:text="${task.getCreatedTime()}"></p>
                     <p class="task-deadline">Deadline to: <span class="task-deadline-date"
                                                                 th:text="${task.getDeadline()}"></span></p>
                     <p class="task-description" th:text="${task.getDescription()}"></p>
                     <div class="task-icons">
-                        <img class="task-icons-item" src="../static/img/bell.png" alt="bell">
-                        <img class="task-icons-item" src="../static/img/trash-bin.png" alt="bell">
+                        <img class="task-icons-item" src="/static/img/bell.png" alt="bell">
+                        <img class="task-icons-item" src="/static/img/trash-bin.png"  th:onclick="load('/api/sendArchive/'+ [[${task.getIdTask()}]])" alt="bell">
+
+
                     </div>
-                    <a href="#" class="task-btn">Complete</a>
+
+<!--                        <input type="hidden" th:text="${task.getIdTask()}" name="idTask"/>-->
+
+                        <a href="#" class="task-btn" th:onclick="load('/api/complete/'+ [[${task.getIdTask()}]])">Complete</a>
+<!--                        <button type="submit" class="task-btn">Complete</button>-->
+
                 </div>
             </nav>
-            <form action="'/updateTask" method="get" id="update-task">
+        </div>
+        <!--    </div>-->
+        <form th:action="@{/api/updateTask}" method="get" id="update-task">
 
-                <div class="task-card-section" th:if="${taskForEdit != null}" id="taskEdit">
-                    <!--        <div class="task-card-section" id="taskEdit">-->
-                    <h3 class="task-card-title" th:text="${taskForEdit.getTaskName()}">taskName</h3>
-                    <div class="task-card">
-                        <div class="task-card-left-col">
-                            <div class="task-card-img _1"></div>
-                            <div class="task-card-form">
-                                <div class="task-card-form-row">
-                                    <input name="deadline" type="date" th:d#dates="${taskForEdit.getDeadline()}"
-                                           contenteditable="true" class="task-card-input">
-                                    </input>
-                                </div>
-                            </div>
+            <div class="task-card-section" th:if="${taskForEdit != null}" id="taskEdit">
+                <input type="hidden" th:value="${taskForEdit.getIdTask()}" name="idTask"/>
+                <!--        <div class="task-card-section" id="taskEdit">-->
+                <h3 class="task-card-title" th:text="${taskForEdit.getTaskName()}">taskName</h3>
+                <div class="task-card">
+                    <div class="task-card-left-col">
+                        <div class="task-card-img _1"></div>
+                        <div class="task-card-form">
                             <div class="task-card-form-row">
-                                <label for="name-task" class="task-card-label">Name Task</label>
-                                <output name="taskName" th:text="${taskForEdit.getTaskName()}" type="text"
-                                        class="task-card-input" contenteditable="true"></output>
-                            </div>
-                            <div class="task-card-actions">
-                                <a href="#" class="task-card-actions-item">
-                                    <img src="../static/img/arrow.png" alt="" class="task-card-actions-icon">
-                                    Share
-                                </a>
-                                <a href="#" class="task-card-actions-item">
-                                    <img src="../static/img/bell.png" alt="" class="task-card-actions-icon">
-                                    Add to important
-                                </a>
-                                <a href="#" class="task-card-actions-item">
-                                    <img src="../static/img/trash-bin.png" alt="" class="task-card-actions-icon">
-                                    Delete
-                                </a>
+                                <input name="deadline" type="date" th:datetime="${taskForEdit.getDeadline()}"
+                                       contenteditable="true" class="task-card-input"/>
                             </div>
                         </div>
-                        <div class="task-card-right-col">
-                            <!--                            <output class="task-card-input" contenteditable="true"-->
-                            <!--                                    th:text="${taskForEdit?.getTaskName()}">-->
+                        <div class="task-card-form-row">
+                            <label for="name-task" class="task-card-label">Name Task</label>
+                            <input name="taskName" th:value="${taskForEdit.getTaskName()}" type="text"
+                                   class="task-card-input" contenteditable="true"/>
+                        </div>
+                        <div class="task-card-actions">
+                            <a href="#" class="task-card-actions-item">
+                                <img src="/static/img/arrow.png" alt="" class="task-card-actions-icon">
+                                Share
+                            </a>
+                            <a href="#" class="task-card-actions-item">
+                                <img src="/static/img/bell.png" alt="" class="task-card-actions-icon">
+                                Add to important
+                            </a>
+                            <a href="#" class="task-card-actions-item">
+                                <img src="/static/img/trash-bin.png" alt="" class="task-card-actions-icon">
+                                Delete
+                            </a>
+                        </div>
+                    </div>
+                    <div class="task-card-right-col">
+                        <!--                            <output class="task-card-input" contenteditable="true"-->
+                        <!--                                    th:text="${taskForEdit?.getTaskName()}">-->
 
-                            <h4 class="task-card-header" th:text="${taskForEdit?.getTaskName()}">Tasks Description</h4>
-                            <!--                            </output>-->
-                        </div>
-                        <div>
+                        <h4 class="task-card-header" th:text="${taskForEdit?.getTaskName()}">Tasks Description</h4>
+                        <!--                            </output>-->
+                    </div>
+                    <div>
 
-                            <output name="description" th:text="${taskForEdit.getDescription()}" type="text"
-                                    class="task-card-input" contenteditable="true"></output>
-                        </div>
-                        <div>
-                            <!--                            <a href="/" class="btn btn-dark btn-task-card">Save</a>-->
-                            <button type="submit" class="btn btn-dark btn-task-card">Save</button>
-                        </div>
+                        <input name="description" th:value="${taskForEdit.getDescription()}" type="text"
+                               class="task-card-input" contenteditable="true"/>
+                    </div>
+                    <div>
+                        <!--                            <a href="/" class="btn btn-dark btn-task-card">Save</a>-->
+                        <button type="submit" class="btn btn-dark btn-task-card">Save</button>
                     </div>
                 </div>
 
-            </form>
-        </div>
+        </form>
+    </div>
+    </div>
 </section>
 
 </body>
