@@ -21,6 +21,9 @@ public class TaskDBService implements MySqlDBService<Task> {
         this.taskRepository = taskRepository;
     }
 
+
+
+
     @Override
     public Optional<Task> saveUpdate(Task task) {
         try {
@@ -73,7 +76,7 @@ public class TaskDBService implements MySqlDBService<Task> {
         return null;
     }
 
-    public List<Task> getByIdUser(long idUser) {
+    public List<Task> getByIdUser(User idUser) {
         try {
             log.info("trying to getAll taskList from db by idUser");
             return taskRepository.findAllByIdUser(idUser);
@@ -83,10 +86,11 @@ public class TaskDBService implements MySqlDBService<Task> {
         }
     }
 
-    public List<Task> getByStatus(long status) {
+    public List<Task> getByStatus(int status,User idUser) {
         try {
             log.info("trying to getAll taskList from db by status");
-            return taskRepository.findAllByStatus(status);
+
+            return taskRepository.findAllByStatusAndIdUser(status,idUser);
         } catch (Exception e) {
             log.error("error getting all from db by status{}{}", e, e);
             return new ArrayList<>();
@@ -108,6 +112,24 @@ public class TaskDBService implements MySqlDBService<Task> {
             }
         } catch (Exception e) {
             log.error("error updating complete by idTask{}{}", e, e);
+            return Optional.empty();
+        }
+    }
+    public Optional<Task> sendArchive(long idTask) {
+        try {
+            log.info("trying to get task by idTask{}", idTask);
+            Optional<Task> byIdTask = taskRepository.findByIdTask(idTask);
+            if (byIdTask.isPresent()) {
+                log.info("setting status to sendArchive 1");
+                byIdTask.get().setStatus(1);
+                log.info("updating task");
+                return saveUpdate(byIdTask.get());
+            } else {
+                log.info("task by id not found");
+                return Optional.empty();
+            }
+        } catch (Exception e) {
+            log.error("error updating sendArchive by idTask{}{}", e, e);
             return Optional.empty();
         }
     }
