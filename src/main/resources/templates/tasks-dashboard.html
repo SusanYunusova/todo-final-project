@@ -20,7 +20,7 @@
 
     function load(form) {
         // document.forms[form].submit();
-        window.location.href=form;
+        window.location.href = form;
     }
 
 </script>
@@ -82,75 +82,74 @@
             <!--                     th:attr="onclick=|loadContent('${task.getTaskName()}')|">-->
             <!--            <div class="task" th:onclick="showTaskDetail([[${task}]])" th:attr="taskForEdit=${task}">-->
             <nav th:each="task :${session.user.getTaskList()}">
-                    <div class="task" th:onclick="load('/taskEdit/'+ [[${task.getIdTask()}]])">
-                        <h4 class="task-title" th:text="${task.getTaskName()}"></h4>
-                        <p class="task-start-time" th:text="${task.getCreatedTime()}"></p>
-                        <p class="task-deadline">Deadline to: <span class="task-deadline-date"
-                                                                    th:text="${task.getDeadline()}"></span></p>
-                        <p class="task-description" th:text="${task.getDescription()}"></p>
-                        <div class="task-icons">
-                            <img class="task-icons-item" src="../static/img/bell.png" alt="bell">
-                            <img class="task-icons-item" src="../static/img/trash-bin.png" alt="bell">
-                        </div>
-                        <a href="#" class="task-btn">Complete</a>
+                <div class="task" th:onclick="load('/taskEdit/'+ [[${task.getIdTask()}]])">
+                    <h4 class="task-title" th:text="${task.getTaskName()}"></h4>
+                    <p class="task-start-time" th:text="${task.getCreatedTime()}"></p>
+                    <p class="task-deadline">Deadline to: <span class="task-deadline-date"
+                                                                th:text="${task.getDeadline()}"></span></p>
+                    <p class="task-description" th:text="${task.getDescription()}"></p>
+                    <div class="task-icons">
+                        <img class="task-icons-item" src="../static/img/bell.png" alt="bell">
+                        <img class="task-icons-item" src="../static/img/trash-bin.png" alt="bell">
                     </div>
+                    <a href="#" class="task-btn">Complete</a>
+                </div>
             </nav>
-            <!--            <nav th:each="task :${session.user.getTaskList()}">-->
-            <!--			<div class="task" th:each="task :${session.user.getTaskList()}" th:onclick="|loadContent('${task.getTaskName()}');|">-->
-            <!--				<h4 class="task-title"th:text="${task.getTaskName()}"></h4>-->
-            <!--				<p class="task-start-time" th:text="${task.getCreatedTime()}"></p>-->
-            <!--				<p class="task-deadline">Deadline to: <span class="task-deadline-date"th:text="${task.getDeadline()}"></span></p>-->
-            <!--				<p class="task-description" th:text="${task.getDescription()}"></p>-->
-            <!--				<div class="task-icons">-->
-            <!--					<img class="task-icons-item" src="../static/img/bell.png" alt="bell">-->
-            <!--					<img class="task-icons-item" src="../static/img/trash-bin.png" alt="bell">-->
-            <!--				</div>-->
-            <!--				<a href="#" class="task-btn">Complete</a>-->
-            <!--			</div>-->
+            <form action="/updateTask" method="get" id="update-task">
 
-            <!--        </div>-->
-
-
-            <div class="task-card-section" th:if="${taskForEdit != null}" id="taskEdit">
-                <!--        <div class="task-card-section" id="taskEdit">-->
-                <h3 class="task-card-title" th:text="${taskForEdit.getTaskName()}">taskName</h3>
-                <div class="task-card">
-                    <div class="task-card-left-col">
-                        <div class="task-card-img _1"></div>
-                        <div class="task-card-form">
-                            <div class="task-card-form-row">
-                                <input name="task-card-date" type="date"  th:d#dates="${taskForEdit.getDeadline()}" class="task-card-input">
+                <div class="task-card-section" th:if="${taskForEdit != null}" id="taskEdit">
+                    <!--        <div class="task-card-section" id="taskEdit">-->
+                    <h3 class="task-card-title" th:text="${taskForEdit.getTaskName()}">taskName</h3>
+                    <div class="task-card">
+                        <div class="task-card-left-col">
+                            <div class="task-card-img _1"></div>
+                            <div class="task-card-form">
+                                <div class="task-card-form-row">
+                                    <input name="deadline" type="date" th:d#dates="${taskForEdit.getDeadline()}"
+                                           contenteditable="true" class="task-card-input">
+                                    </input>
+                                </div>
                             </div>
                             <div class="task-card-form-row">
                                 <label for="name-task" class="task-card-label">Name Task</label>
-                                <input name="name-task"   th:text="${taskForEdit.getDeadline()}" type="text" placeholder="task name" class="task-card-input">
+                                <output name="name-task" th:text="${taskForEdit.getTaskName()}" type="text"
+                                        class="task-card-input" contenteditable="true"></output>
+                            </div>
+                            <div class="task-card-actions">
+                                <a href="#" class="task-card-actions-item">
+                                    <img src="../static/img/arrow.png" alt="" class="task-card-actions-icon">
+                                    Share
+                                </a>
+                                <a href="#" class="task-card-actions-item">
+                                    <img src="../static/img/bell.png" alt="" class="task-card-actions-icon">
+                                    Add to important
+                                </a>
+                                <a href="#" class="task-card-actions-item">
+                                    <img src="../static/img/trash-bin.png" alt="" class="task-card-actions-icon">
+                                    Delete
+                                </a>
                             </div>
                         </div>
-                        <div class="task-card-actions">
-                            <a href="#" class="task-card-actions-item">
-                                <img src="../static/img/arrow.png" alt="" class="task-card-actions-icon">
-                                Share
-                            </a>
-                            <a href="#" class="task-card-actions-item">
-                                <img src="../static/img/bell.png" alt="" class="task-card-actions-icon">
-                                Add to important
-                            </a>
-                            <a href="#" class="task-card-actions-item">
-                                <img src="../static/img/trash-bin.png" alt="" class="task-card-actions-icon">
-                                Delete
-                            </a>
+                        <div class="task-card-right-col">
+                            <!--                            <output class="task-card-input" contenteditable="true"-->
+                            <!--                                    th:text="${taskForEdit?.getTaskName()}">-->
+
+                            <h4 class="task-card-header" th:text="${taskForEdit?.getTaskName()}">Tasks Description</h4>
+                            <!--                            </output>-->
+                        </div>
+                        <div>
+
+                            <output name="description" th:text="${taskForEdit.getDescription()}" type="text"
+                                    class="task-card-input" contenteditable="true"></output>
+                        </div>
+                        <div>
+                            <a href="#" class="btn btn-dark btn-task-card">Save</a>
+
                         </div>
                     </div>
-                    <div class="task-card-right-col">
-                        <h4 class="task-card-header" th:text="${taskForEdit?.getTaskName()}">Tasks Description</h4>
-                        <p class="task-card-text"  th:text="${taskForEdit.getDescription()}">
-
-                        </p>
-                        <a href="#" class="btn btn-dark btn-task-card">Save</a>
-                    </div>
                 </div>
-            </div>
 
+            </form>
         </div>
 </section>
 

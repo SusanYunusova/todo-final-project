@@ -65,10 +65,24 @@ public class TaskController {
     public String editTask(@PathVariable long idTask, Model model) {
         Task task = taskService.getByID(idTask).getBody().get();
         model.addAttribute("taskForEdit",task);
-//        model.addAttribute("taskForEdit", Task.builder().idTask(idTask).taskName("For test from api").build());
         return "tasks-dashboard";
     }
+    @GetMapping("/updateTask")
+    public String updateTask(
+            @RequestParam String fullName,
+            @RequestParam String email,
+            @RequestParam String password)  {
+        log.info("trying to create new User ");
+        User user = User.builder()
+                .email(email)
+                .fullName(fullName)
+                .password(password)
+                .build();
+        log.info("created user:{}",user.getFullName());
+        userService.saveOrUpdate(user);
+        return "index";
 
+    }
 //    @GetMapping("/add")
 //    public ResponseEntity<?> create(@RequestBody Task task) {
 //        log.info("creating task..");
