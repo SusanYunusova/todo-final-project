@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,21 +23,30 @@ public class TaskService {
     @Autowired
     private HttpServletRequest httpServletRequest;
 
+
+
     public TaskService(TaskDBService taskDBService) {
         this.taskDBService = taskDBService;
     }
 
-    public ResponseEntity<?> saveOrUpdate(Task task) {
+    public void saveOrUpdate(Task task, HttpSession session) {
         try {
             log.info("trying to save or update Task");
             Optional<Task> savedTask = taskDBService.saveUpdate(task);
-            return new ResponseEntity<>(savedTask, HttpStatus.OK);
-
+            Integer status = (Integer) session.getAttribute("taskStatus");
+            if(status ==null){
+                status = 0;
+            }
+            List<Task> tasksListByStatus = getByStatus(status, savedTask.get().getIdUser());
+            User user = savedTask.get().getIdUser();
+            user.setTaskList(tasksListByStatus);
+            session.setAttribute("user",user);
         } catch (Exception e) {
             log.error("error save or update task{}{}", e, e);
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 
     public ResponseEntity<?> delete(long id) {
         try {
@@ -74,34 +84,39 @@ public class TaskService {
 
     }
 
-    public List<Task> getByIDUser(long idUser) {
-        try {
-            log.info("trying to get  taskList by  idUser");
-            List<Task> taskList = taskDBService.getByIdUser(idUser);
-//            httpServletRequest.setAttribute("taskList", taskList);
-            return taskList;
-        } catch (Exception e) {
-            log.error("error get by idUser o taskList{}{}", e, e);
-            return new ArrayList<>();
-        }
-    }
+//    public List<Task> getByIDUser(long idUser) {
+//        try {
+//            log.info("trying to get  taskList by  idUser");
+//            List<Task> taskList = taskDBService.getByIdUser(idUser);
+////            httpServletRequest.setAttribute("taskList", taskList);
+//            return taskList;
+//        } catch (Exception e) {
+//            log.error("error get by idUser o taskList{}{}", e, e);
+//            return new ArrayList<>();
+//        }
+//    }
 
-    public ResponseEntity<?> getByStatus(long status) {
+    private List<Task> getByStatus(int status,User idUser) {
         try {
             log.info("trying to get  taskList by  status");
-            List<Task> taskList = taskDBService.getByStatus(status);
+            List<Task> taskList;
+            if(status == 0) {
+                taskList = taskDBService.getByIdUser(idUser);
+            }else{
+                taskList = taskDBService.getByStatus(status, idUser);
+            }
             if (!taskList.isEmpty()) {
                 log.info("taskList has found by status{}", status);
-                return new ResponseEntity<>(taskList, HttpStatus.OK);
+                return taskList;
             } else {
                 log.info("couldn't find by status{}", status);
-                return new ResponseEntity<>(Optional.empty(), HttpStatus.NO_CONTENT);
             }
 
         } catch (Exception e) {
             log.error("error get by idUser o taskList{}{}", e, e);
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
+        return null;
     }
 
     public ResponseEntity<?> complete(long idTask) {
@@ -120,6 +135,62 @@ public class TaskService {
             log.error("error update complete task{}{}", e, e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    } public ResponseEntity<?> sendArchive(long idTask) {
+        try {
+            log.info("trying to sendArchive  task by  idTask");
+            Optional<Task> updatedTask = taskDBService.sendArchive(idTask);
+            if (updatedTask.isPresent()) {
+                log.info("task has updated sendArchive by idTask{}", idTask);
+                return new ResponseEntity<>(updatedTask, HttpStatus.OK);
+            } else {
+                log.info("couldn't update by idTask{}", idTask);
+                return new ResponseEntity<>(Optional.empty(), HttpStatus.NO_CONTENT);
+            }
+
+        } catch (Exception e) {
+            log.error("error update sendArchive task{}{}", e, e);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public String getTaskByStatus(int status, HttpSession session) {
+        log.info("trying to get tasks by status. status : {}",status);
+        try{
+            User user = (User) session.getAttribute("user");
+            if(user == null){
+                return "index";
+            }
+
+            List<Task> byStatus = getByStatus(status, user);
+            user.setTaskList(byStatus);
+            session.setAttribute("user",user);
+            session.setAttribute("status",status);
+            return "tasks-dashboard";
+
+        }catch (Exception e){
+            log.error("Error getting tasks by status : {}",e,e);
+        }
+        return "index";
+    }
+
+    public String getTaskArchive(int status, HttpSession session) {
+        log.info("trying to get tasks archive. status : {}",status);
+        try{
+            User user = (User) session.getAttribute("user");
+            if(user == null){
+                return "index";
+            }
+
+            List<Task> byStatus = getByStatus(status, user);
+            user.setTaskList(byStatus);
+            session.setAttribute("user",user);
+            session.setAttribute("status",status);
+            return "tasks-archive";
+
+        }catch (Exception e){
+            log.error("Error getting tasks by status : {}",e,e);
+        }
+        return "index";
     }
 
 //    public ResponseEntity<?> getArchive(long idUser) {

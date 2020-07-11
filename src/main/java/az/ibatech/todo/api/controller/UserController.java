@@ -23,7 +23,7 @@ public class UserController {
         this.notificationService = notificationService;
     }
 
-    @GetMapping("/createUser")
+    @GetMapping("api/createUser")
     public String login(
             @RequestParam String fullName,
             @RequestParam String email,
@@ -39,7 +39,7 @@ public class UserController {
         return "index";
 
     }
-    @GetMapping("/mail")
+    @GetMapping("api/mail")
     public String mail()  {
         log.info("trying to create new User ");
         User user = User.builder()
