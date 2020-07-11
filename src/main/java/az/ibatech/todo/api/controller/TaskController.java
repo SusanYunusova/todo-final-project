@@ -31,7 +31,7 @@ public class TaskController {
         this.userService = userService;
     }
 
-    @GetMapping("/createTask")
+    @GetMapping("api/createTask")
     public String login(
             @RequestParam String deadline,
             @RequestParam String taskName,
@@ -48,7 +48,7 @@ public class TaskController {
                 .idUser(user)
                 .build();
         log.info("created task:{}", task.getTaskName());
-        taskService.saveOrUpdate(task);
+        taskService.saveOrUpdate(task, session);
         User newUser = (User) userService.getByID(user.getIdUser()).getBody();
         session.setAttribute("user", newUser);
         session.setAttribute("task", task);
@@ -61,33 +61,52 @@ public class TaskController {
 //        model.addAttribute("taskForEdit",Task.builder().idTask(idTask).taskName("For test from api").build());
 //        return "tasks-dashboard";
 //    }
-    @GetMapping("/taskEdit/{idTask}")
+    @GetMapping("api/taskEdit/{idTask}")
     public String editTask(@PathVariable long idTask, Model model) {
         Task task = taskService.getByID(idTask).getBody().get();
-        model.addAttribute("taskForEdit",task);
+        model.addAttribute("taskForEdit", task);
         return "tasks-dashboard";
     }
-    @GetMapping("/updateTask")
+
+    @GetMapping("api/updateTask")
     public String updateTask(
+            @RequestParam long idTask,
             @RequestParam String description,
             @RequestParam String deadline,
-            @RequestParam String taskName) throws ParseException {
+            @RequestParam String taskName, HttpSession session) throws ParseException {
         log.info("trying to update taskk by id Task ");
-        HttpSession session = httpSessionObjectFactory.getObject();
+//        HttpSession session = httpSessionObjectFactory.getObject();
         User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "index";
+        }
         Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(deadline);
         Task task = Task.builder()
                 .idUser(user)
-                .idTask(1)
+                .idTask(idTask)
                 .description(description)
                 .taskName(taskName)
                 .deadline(date1)
                 .build();
-        log.info("created task:{}",task.getTaskName());
-        taskService.saveOrUpdate(task);
+        log.info("created task:{}", task.getTaskName());
+        taskService.saveOrUpdate(task, session);
         return "tasks-dashboard";
 
     }
+
+    @GetMapping("api/complete/{idTask}")
+    public ResponseEntity<?> complete(@PathVariable long idTask) {
+        log.info("trying to get complete by idTask");
+        return taskService.complete(idTask);
+    }
+
+    @GetMapping("api/sendArchive/{idTask}")
+    public ResponseEntity<?> sendArchive(@PathVariable long idTask) {
+        log.info("trying to  sendArchive by idTask");
+        return taskService.sendArchive(idTask);
+    }
+
+
 //    @GetMapping("/add")
 //    public ResponseEntity<?> create(@RequestBody Task task) {
 //        log.info("creating task..");
@@ -118,18 +137,22 @@ public class TaskController {
 //    }
 
 
-    //    int status (default-0,deleted-1,overdue-2,today-3,done-4)
-    @GetMapping("/getByStatus/{status}")
-    public ResponseEntity<?> getByStatus(@PathVariable long status) {
-        log.info("trying to get taskList by status");
-        return taskService.getByStatus(status);
+//    //    int status (default-0,deleted-1,overdue-2,today-3,done-4)
+//    @GetMapping("/getByStatus/{status}")
+//    public ResponseEntity<?> getByStatus(@PathVariable long status) {
+//        log.info("trying to get taskList by status");
+//        return taskService.getByStatus(status);
+//    }
+
+
+    @GetMapping("api/sort-tasks/{status}")
+    public String showTasksByStatus(@PathVariable int status, HttpSession session) {
+        return taskService.getTaskByStatus(status, session);
     }
 
-    @GetMapping("/complete/{idTask}")
-    public ResponseEntity<?> complete(@PathVariable long idTask) {
-        log.info("trying to get complete by idTask");
-        return taskService.complete(idTask);
+    @GetMapping("api/task-archive/{status}")
+    public String taskArchive(@PathVariable int status, HttpSession session) {
+        return taskService.getTaskArchive(status, session);
     }
-
 
 }
