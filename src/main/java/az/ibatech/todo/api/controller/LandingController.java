@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 public class LandingController {
 
 
-    @GetMapping("/dashboard")
+    @GetMapping("api/dashboard")
     public String dashboard() {
         log.info("going to dashboard page...");
         return "tasks-dashboard";
