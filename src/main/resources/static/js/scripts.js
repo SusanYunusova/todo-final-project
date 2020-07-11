@@ -17,3 +17,18 @@ function showDeleteModal(){
 
     deleteModal.classList.add("open");
 }
+
+
+function loadDashBoard() {
+    console.log("happy")
+    var element = document.getElementById("task-type");
+    var index = element.options[element.selectedIndex].value;
+
+
+    window.location.href = '/api/sort-tasks/'+index;
+}
+
+function setSelection(index) {
+    var element = document.getElementById("task-type");
+    element.options[index].selected = true;
+}
