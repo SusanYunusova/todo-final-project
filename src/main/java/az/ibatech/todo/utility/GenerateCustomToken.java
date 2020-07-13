@@ -13,14 +13,14 @@ public class GenerateCustomToken {
 
     public String generateToken(){
         log.info("Starting to generate custom token");
-        String token = "";
+        StringBuilder token = new StringBuilder();
         Random rand = new Random();
         while(token.length()<50){
-            token+=s.charAt(rand.nextInt(50));
+            token.append(s.charAt(rand.nextInt(50)));
         }
 
-        log.info("Generated token is : {}",token);
-        return token;
+        log.info("Generated token is : {}", token.toString());
+        return token.toString();
     }
 
 }

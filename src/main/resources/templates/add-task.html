@@ -9,23 +9,23 @@
 </head>
 <body>
 <header class="main-header">
-	<a href="tasks-dashboard.html" class="main-header-logo"><img src="img/iba-tech-logo-white.svg" alt="IBA Tech Academy"></a>
+	<a href="tasks-dashboard.html" class="main-header-logo"><img src="/static/img/iba-tech-logo-white.svg" alt="IBA Tech Academy"></a>
 	<div class="main-header-wrapper">
 		<label class="main-header-search-wrapper">
 			<input type="search" class="main-header-search" placeholder="Search">
-			<img src="img/search-icon.svg" alt="Search Icon">
+			<img src="/static/img/search-icon.svg" alt="Search Icon">
 		</label>
 		<div class="main-header-profile-wrapper">
 			<div class="main-header-profile-credentials">
 				<span class="main-header-profile-welcome">Welcome,</span>
 				<span class="main-header-username" th:text="${session.user.getFullName()}">Sample User</span>
 			</div>
-			<img class="main-header-user-icon" src="img/user-icon-with-background.svg" alt="User Icon">
+			<img class="main-header-user-icon" src="/static/img/user-icon-with-background.svg" alt="User Icon">
 			<div class="hidden-accordion-wrapper">
 				<ul class="hidden-accordion">
-					<li class="hidden-accordion-item"><a href="tasks-archive.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="img/archive-icon.svg" alt="User Icon">Archive</a></li>
-					<li class="hidden-accordion-item"><a href="tasks-dashboard.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="img/favourite-icon.svg" alt="Favourite Icon">My tasks</a></li>
-					<li class="hidden-accordion-item"><a href="./login.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="img/log-out-icon.svg" alt="Log Out Icon">Log Out</a></li>
+					<li class="hidden-accordion-item"><a href="tasks-archive.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="/static/img/archive-icon.svg" alt="User Icon">Archive</a></li>
+					<li class="hidden-accordion-item"><a href="tasks-dashboard.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="/static/img/favourite-icon.svg" alt="Favourite Icon">My tasks</a></li>
+					<li class="hidden-accordion-item"><a href="./login.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="/static/img/log-out-icon.svg" alt="Log Out Icon">Log Out</a></li>
 				</ul>
 			</div>
 		</div>
