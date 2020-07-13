@@ -129,6 +129,23 @@ public class UserService {
             return "index";
         }
     }
+    public String getByEmailFb(User userFromFB) {
+        try {
+
+            log.info("trying to get by email");
+            Optional<User> user = userDBService.getByEmail(userFromFB.getEmail());
+            if (!user.isPresent()) {
+                log.info("user not found tryint to insert");
+                user = saveOrUpdate(userFromFB);
+            }
+            HttpSession session = httpSessionObjectFactory.getObject();
+            session.setAttribute("user", user.get());
+            return "landing";
+        } catch (Exception e) {
+            log.error("error get By email{}", e, e);
+            return "index";
+        }
+    }
 
     public ResponseEntity<?> delete(long idUser) {
         try {

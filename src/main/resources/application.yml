@@ -1,21 +1,26 @@
-security:
-  oauth2:
-    client:
-      clientId: 579377249444600
-      clientSecret: c96125b1b6f8cd6c56d87fb7447968eb
-      accessTokenUri: https://graph.facebook.com/oauth/access_token
-      userAuthorizationUri: https://www.facebook.com/dialog/oauth
-      tokenName: oauth_token
-      authenticationScheme: query
-      clientAuthenticationScheme: form
-    resource:
-      userInfoUri: https://graph.facebook.com/me
+#security:
+#  oauth2:
+#    client:
+#      clientId: 579377249444600
+#      clientSecret: c96125b1b6f8cd6c56d87fb7447968eb
+#      accessTokenUri: https://graph.facebook.com/oauth/access_token
+#      userAuthorizationUri: https://www.facebook.com/dialog/oauth
+#      tokenName: oauth_token
+#      authenticationScheme: query
+#      clientAuthenticationScheme: form
+#    resource:
+#      userInfoUri: https://graph.facebook.com/me
 
 spring:
+  social:
+    facebook:
+      app:
+        id: 579377249444600
+        secret: c96125b1b6f8cd6c56d87fb7447968eb
   application:
     name: todo
   datasource:
-    url: jdbc:mysql://localhost:3306/todo?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/todo?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -47,7 +52,8 @@ server:
   port: ${app.port}
 
 app:
-  host: localhost
+#  host: localhost
+  host: 185.2.103.111
   port: 9606
   email: todoApp.iba@gmail.com
   password: todoApp123
