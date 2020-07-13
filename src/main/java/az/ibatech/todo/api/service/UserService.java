@@ -2,13 +2,14 @@ package az.ibatech.todo.api.service;
 
 import az.ibatech.todo.db.entities.User;
 import az.ibatech.todo.db.service.impl.UserDBService;
+import az.ibatech.todo.utility.GenerateCustomToken;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,11 +24,37 @@ public class UserService {
     ObjectFactory<HttpSession> httpSessionObjectFactory;
     @Autowired
     private HttpServletRequest httpServletRequest;
-
+    private  final GenerateCustomToken generateCustomToken;
     private final UserDBService userDBService;
+    private final NotificationService notificationService;
 
-    public UserService(UserDBService userDBService) {
+    public UserService(GenerateCustomToken generateCustomToken, UserDBService userDBService, NotificationService notificationService) {
+        this.generateCustomToken = generateCustomToken;
         this.userDBService = userDBService;
+        this.notificationService = notificationService;
+    }
+
+    public String createUser(String email, String fullName, String password, Model model){
+        Optional<User> byEmail = userDBService.getByEmail(email);
+        if (byEmail.isPresent()){
+            log.info("user found with email {}",email);
+            model.addAttribute("repeatedMail","User with this email already exist,please try another one");
+            return "sign-up";
+
+        }else {
+            log.info("creating new user by given criteria,mail:{}",email);
+            User user = User.builder()
+                    .password(password)
+                    .fullName(fullName)
+                    .email(email)
+                    .isConfirm(0)
+                    .token(generateCustomToken.generateToken())
+                    .build();
+            userDBService.saveUpdate(user);
+            notificationService.sendMailForConfirm(user);
+        }
+
+        return "waiting";
     }
 
     public Optional<User> saveOrUpdate(User user) {
@@ -38,11 +65,21 @@ public class UserService {
                 log.info("trying to save or update USer");
                 Optional<User> savedUser = userDBService.saveUpdate(user);
                 return savedUser;
+            }else {
+
             }
         } catch (Exception e) {
             log.error("error save or update user{}{}", e, e);
         }
         return Optional.empty();
+    }
+    public void updatePassword(User user){
+        try {
+            log.info("trying to update password by id:{}",user.getIdUser());
+            userDBService.saveUpdate(user);
+        }catch (Exception e){
+            log.error("error updating password of user id:{} error:{}",user.getIdUser(),e,e);
+        }
     }
 
     public String getByEmailAndPassword(String email, String password) {
@@ -127,5 +164,28 @@ public class UserService {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    public boolean resetPassword(String token, HttpSession session) {
+        Optional<User> byToken = userDBService.getByToken(token);
+        return byToken
+                .map(user -> {
+                    session.setAttribute("user",user);
+                    return true;
+                })
+                .orElseGet(()-> false);
+    }
+
+    public boolean confirm(String token, HttpSession session) {
+        Optional<User> byToken = userDBService.getByToken(token);
+
+        return byToken
+                .map(user -> {
+                    user.setIsConfirm(1);
+                    userDBService.saveUpdate(user);
+                    session.setAttribute("user",user);
+                    return true;
+                })
+                .orElseGet(()-> false);
     }
 }

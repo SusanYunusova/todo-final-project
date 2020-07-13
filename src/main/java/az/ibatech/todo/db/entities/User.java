@@ -23,21 +23,24 @@ public class User implements Serializable {
      * string password
      * string confirmPassword
      */
-    private  static  final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id",nullable = false,unique = true)
-    private  long idUser;
+    @Column(name = "id", nullable = false, unique = true)
+    private long idUser;
     @Column(name = "fullName")
-    private  String fullName;
+    private String fullName;
     @Column(name = "email")
-    private  String email;
+    private String email;
     @Column(name = "password")
-    private  String password;
-//    @Column(name = "confirmPassword")
-//    private String confirmPassword;
+    private String password;
+    @Column(name = "token", nullable = true)
+    private String token;
+    @Column(name = "isConfirm")
+    private int isConfirm;
 
-    @OneToMany(mappedBy = "idUser",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+
+    @OneToMany(mappedBy = "idUser", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 
     @JsonManagedReference
     private List<Task> taskList;

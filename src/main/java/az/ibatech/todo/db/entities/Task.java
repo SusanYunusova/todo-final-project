@@ -32,7 +32,7 @@ public class Task implements Serializable {
     @Column(name = "description")
     private String description;
     @Column(name = "status")
-    private int status = 0;
+    private int status;
 
     @ManyToOne
     @JoinColumn(name = "id_User", referencedColumnName = "id")

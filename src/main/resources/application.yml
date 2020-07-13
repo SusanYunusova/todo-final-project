@@ -32,8 +32,8 @@ spring:
           paths: /**
   mail:
     host: smtp.gmail.com
-    username: yunusova96.ys@gmail.com
-    password: 0558248326@suhe
+    username: ${app.email}
+    password: ${app.password}
     port: 587
     properties:
       mail:
@@ -44,5 +44,11 @@ spring:
 
 
 server:
+  port: ${app.port}
+
+app:
+  host: localhost
   port: 9606
+  email: yunusova96.ys@gmail.com
+  password: 0558248326@suhe
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,13 +40,14 @@
                 
                                 
                 
-                    <form action="api/createUser" method="get" class="sign-up-form" id="sign-up-form">
+                    <form th:action="@{/api/createUser}" method="get" class="sign-up-form" id="sign-up-form">
     <div class="text-input-container @@complete">
     <span class="text-input-icon">
         <span>
             <img src="/static/img/icons/user.png" alt="">
         </span>        
     </span>
+        <output th:if="${repeatedMail!=null}" th:text="${repeatedMail}"></output>
     <input type="text" name="fullName" class="form-control @@complete" placeholder="Full name" value="">
     
 

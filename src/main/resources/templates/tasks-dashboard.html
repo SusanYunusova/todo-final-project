@@ -17,12 +17,15 @@
         document.getElementById("taskForEdit").attribute = task;
 
     }
+</script>
 
+<script type="text/javascript">
     function load(form) {
         // document.forms[form].submit();
         window.location.href = form;
     }
 </script>
+
 
 <script type="text/javascript">
     function setSelection() {
@@ -57,9 +60,12 @@
                     <!--                    <li class="hidden-accordion-item"><a href="tasks-dashboard.html" class="hidden-accordion-item-link"><img-->
                     <!--                            class="hidden-accordion-item-image" src="/static/img/favourite-icon.svg"-->
                     <!--                            alt="Favourite Icon">My tasks</a></li>-->
-                    <li class="hidden-accordion-item"><a href="/api/logOut" class="hidden-accordion-item-link"><img
-                            class="hidden-accordion-item-image" src="/static/img/log-out-icon.svg" alt="Log Out Icon">Log
-                        Out</a></li>
+                    <li class="hidden-accordion-item">
+                        <a href="/api/logOut" class="hidden-accordion-item-link">
+                            <img class="hidden-accordion-item-image" src="/static/img/log-out-icon.svg" alt="Log Out Icon"/>
+                            Log Out
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -90,7 +96,7 @@
                         <option class="tasks-filter-item" value="4">Done</option>
                     </select>
                 </form>
-                <a href="api/addTask" class="btn btn-dark btn-add-task">Add task</a>
+                <a th:href="@{/api/addTask}" class="btn btn-dark btn-add-task">Add task</a>
             </div>
         </div>
 
@@ -114,7 +120,8 @@
 
 <!--                        <input type="hidden" th:text="${task.getIdTask()}" name="idTask"/>-->
 
-                        <a href="#" class="task-btn" th:onclick="load('/api/complete/'+ [[${task.getIdTask()}]])">Complete</a>
+<!--                    th:onclick="load('/api/complete/'+ [[${task.getIdTask()}]])"-->
+                        <a th:href="@{/api/complete/{path}(path=${task.getIdTask()})}" class="task-btn" >Complete</a>
 <!--                        <button type="submit" class="task-btn">Complete</button>-->
 
                 </div>

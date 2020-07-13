@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Controller
-//@RequestMapping("/task")
 @Slf4j
 public class TaskController {
     private final TaskService taskService;
@@ -56,11 +55,6 @@ public class TaskController {
 
     }
 
-    //    @GetMapping("/taskEdit/{idTask}")
-//    public String editTask(@PathVariable long idTask, Model model){
-//        model.addAttribute("taskForEdit",Task.builder().idTask(idTask).taskName("For test from api").build());
-//        return "tasks-dashboard";
-//    }
     @GetMapping("api/taskEdit/{idTask}")
     public String editTask(@PathVariable long idTask, Model model) {
         Task task = taskService.getByID(idTask).getBody().get();
@@ -75,7 +69,6 @@ public class TaskController {
             @RequestParam String deadline,
             @RequestParam String taskName, HttpSession session) throws ParseException {
         log.info("trying to update taskk by id Task ");
-//        HttpSession session = httpSessionObjectFactory.getObject();
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "index";
@@ -95,55 +88,19 @@ public class TaskController {
     }
 
     @GetMapping("api/complete/{idTask}")
-    public ResponseEntity<?> complete(@PathVariable long idTask) {
+    public String complete(@PathVariable long idTask,HttpSession session) {
         log.info("trying to get complete by idTask");
-        return taskService.complete(idTask);
+        taskService.complete(idTask);
+
+        return taskService.getTaskByCurrentStatus(session);
     }
 
     @GetMapping("api/sendArchive/{idTask}")
-    public ResponseEntity<?> sendArchive(@PathVariable long idTask) {
+    public String sendArchive(@PathVariable long idTask, HttpSession session) {
         log.info("trying to  sendArchive by idTask");
-        return taskService.sendArchive(idTask);
+        taskService.sendArchive(idTask);
+        return taskService.getTaskByCurrentStatus(session);
     }
-
-
-//    @GetMapping("/add")
-//    public ResponseEntity<?> create(@RequestBody Task task) {
-//        log.info("creating task..");
-//        return taskService.saveOrUpdate(task);
-//    }
-//
-//    @PutMapping("update")
-//    public ResponseEntity<?> update(@RequestBody Task task) {
-//        log.info("updating task..");
-//        return taskService.saveOrUpdate(task);
-//    }
-//
-//    @DeleteMapping("/delete/{idTask}")
-//    public ResponseEntity<?> update(@PathVariable long idTask) {
-//        log.info("deleting task..");
-//        return taskService.delete(idTask);
-//    }
-    //todo search
-    //todo by idUSer list task
-    //todo getByStatus/{status} return listtask
-    //todo complite task id ni gonder bu idli taskin icindeki statusu done ele
-    //todo idsi loggedun idsi olan statusu done olan isDelete 0 tasklarn listi
-
-//    @GetMapping("/getById/{idTask}")
-//    public ResponseEntity<?> getById(@PathVariable long idTask) {
-//        log.info("trying to get task by idTask");
-//        return taskService.getByID(idTask);
-//    }
-
-
-//    //    int status (default-0,deleted-1,overdue-2,today-3,done-4)
-//    @GetMapping("/getByStatus/{status}")
-//    public ResponseEntity<?> getByStatus(@PathVariable long status) {
-//        log.info("trying to get taskList by status");
-//        return taskService.getByStatus(status);
-//    }
-
 
     @GetMapping("api/sort-tasks/{status}")
     public String showTasksByStatus(@PathVariable int status, HttpSession session) {

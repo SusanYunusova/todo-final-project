@@ -34,10 +34,10 @@ public class UserDBService implements MySqlDBService<User> {
 
     public Optional<User> getByEmail(String email){
         try {
-            log.info("trying to get user by email");
+            log.info("trying to get user by email{}",email);
            return userRepository.findByEmail(email);
         }catch (Exception e){
-            log.error("erro gettin email {}",e,e);
+            log.error("error getting email {} error{}",email,e,e);
             return Optional.empty();
         }
     }
@@ -90,6 +90,10 @@ public class UserDBService implements MySqlDBService<User> {
             log.error("error getting email and password{}",e,e);
             return Optional.empty();
         }
+    }
+
+    public Optional<User> getByToken(String token) {
+        return userRepository.findByToken(token);
     }
 //    public void getByPassword(User user){
 //        Optional<User> byEmailAndPassword = userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
