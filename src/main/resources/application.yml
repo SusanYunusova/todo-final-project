@@ -49,6 +49,6 @@ server:
 app:
   host: localhost
   port: 9606
-  email: yunusova96.ys@gmail.com
-  password: 0558248326@suhe
+  email: todoApp.iba@gmail.com
+  password: todoApp123
 

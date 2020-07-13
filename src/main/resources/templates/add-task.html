@@ -36,16 +36,15 @@
     	<div class="container">
     		<div class="tasks-caption">
 				<h2 class="tasks-caption-title">Add new Task</h2>
-				<div class="tasks-caption-actions">
-					<a href="add-task.html" class="btn btn-dark btn-add-task">Add task</a>
-				</div>
+<!--				<div class="tasks-caption-actions">-->
+<!--					<a href="add-task.html" class="btn btn-dark btn-add-task">Add task</a>-->
+<!--				</div>-->
         	</div>
-        	
-        	<div class="task-card">
-   				<div class="task-card-left-col">
-   					<div class="task-card-img _2"></div>
-   					<div class="task-card-form">
-   				<form class="task-card-right-col" method="get" action="/api/createTask">
+			<form method="get" action="/api/createTask">
+        		<div class="task-card">
+					<div class="task-card-left-col">
+						<div class="task-card-img _2"></div>
+						<br><br>
 						<div class="task-card-form-row">
 							<label for="task-card-date" class="task-card-label" >Deadline to:</label>
 							<input id = "task-card-date" name="deadline" type="date" value="2020-06-30" class="task-card-input">
@@ -54,13 +53,14 @@
 							<label for="name-task" class="task-card-label" >Name Task</label>
 							<input id = "name-task" name="taskName" type="text" placeholder="Task 002" class="task-card-input">
 						</div>
-   					</div>
+					</div>
+					<div class="task-card-right-col">
+						<label class="task-card-header">Task Description</label>
+						<textarea class="task-card-textarea" name="description" id="" placeholder="What do you want to get done"></textarea>
+						<button class="btn btn-dark btn-task-card" type="submit">Create task</button>
+					</div>
    				</div>
-   					<label class="task-card-header">Task Description</label>
-   					<textarea class="task-card-textarea" name="description" id="" placeholder="What do you want to get done"></textarea>
-  					<button class="btn btn-dark btn-task-card" type="submit">Create task</button>
-   				</form>
-   			</div>
+			</form>
     	</div>
     </section>
 </body>
