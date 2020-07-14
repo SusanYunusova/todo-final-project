@@ -54,8 +54,7 @@ public class IndexController {
     @GetMapping("api/logOut")
     public String logOut(HttpSession session) {
         log.info("going to logOut page...");
-        session.invalidate();//todo ?????????????
-
+        session.invalidate();
         return "index";
     }
 

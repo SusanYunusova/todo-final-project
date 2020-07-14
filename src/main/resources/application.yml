@@ -17,6 +17,11 @@ spring:
       app:
         id: 579377249444600
         secret: c96125b1b6f8cd6c56d87fb7447968eb
+
+    linkedin:
+      app:
+        id: 77zu4tf3131uvp
+        secret: aZXdAO9y86X1xd4d
   application:
     name: todo
   datasource:
@@ -52,8 +57,8 @@ server:
   port: ${app.port}
 
 app:
-#  host: localhost
-  host: 185.2.103.111
+  host: localhost
+#  host: 185.2.103.111
   port: 9606
   email: todoApp.iba@gmail.com
   password: todoApp123

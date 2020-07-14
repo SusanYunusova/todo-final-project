@@ -1,4 +1,4 @@
-package az.ibatech.todo.social;
+package az.ibatech.todo.social.service.impl;
 
 import az.ibatech.todo.social.service.FaceBookService;
 import com.sun.crypto.provider.OAEPParameters;
