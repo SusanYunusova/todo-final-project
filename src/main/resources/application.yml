@@ -22,6 +22,15 @@ spring:
       app:
         id: 77zu4tf3131uvp
         secret: aZXdAO9y86X1xd4d
+
+
+    google:
+      app:
+        id: 179076641433-okgi2ppavasdm2d8g9h88hdfs6ai8i0l.apps.googleusercontent.com
+        secret: Qxbm5-C4o0ubNkeo38Kt0sbu
+
+
+
   application:
     name: todo
   datasource:

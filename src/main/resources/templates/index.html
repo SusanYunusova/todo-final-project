@@ -8,6 +8,7 @@
     <!--    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>-->
     <!--    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>-->
     <title>Start page</title>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
 <div class="navbar-light">
@@ -87,7 +88,8 @@
                         <span class="social-links-caption-text">Or you can Join with</span>
                     </div>
                     <div class="social-links-list">
-                        <i class="social-link social-link-google-plus"></i>
+<!--                        <i class="social-link social-link-google-plus"></i>-->
+                        <a th:href="@{/googleLogin}" class="social-link social-link-google-plus"></a>
                         <a th:href="@{/facebookLogin}" class="social-link social-link-facebook"></a>
                         <a th:href="@{/linkedinLogin}" class="social-link social-link-linkedin"></a>
 <!--                        <i class="social-link social-link-linkedin"></i>-->
