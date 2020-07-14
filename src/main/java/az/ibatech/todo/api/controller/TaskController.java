@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -48,7 +49,7 @@ public class TaskController {
                 .build();
         log.info("created task:{}", task.getTaskName());
         taskService.saveOrUpdate(task, session);
-        User newUser = (User) userService.getByID(user.getIdUser()).getBody();
+      User newUser = (User) userService.getByID(user.getIdUser());
         session.setAttribute("user", newUser);
         session.setAttribute("task", task);
         return "tasks-dashboard";

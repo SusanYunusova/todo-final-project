@@ -164,21 +164,21 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<?> getByID(long idUser) {
+    public User getByID(long idUser) {
         try {
             log.info("trying to get  User by  id");
             Optional<User> byIDUser = userDBService.getById(idUser);
             if (byIDUser.isPresent()) {
                 log.info("user has found by id");
-                return new ResponseEntity<>(byIDUser.get(), HttpStatus.OK);
+               return byIDUser.get();
             } else {
                 log.info("couldn't find by id{}", idUser);
-                return new ResponseEntity<>(Optional.empty(), HttpStatus.NO_CONTENT);
+               return null;
             }
 
         } catch (Exception e) {
             log.error("error get by id o user{}{}", e, e);
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return null;
         }
 
     }
