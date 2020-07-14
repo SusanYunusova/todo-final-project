@@ -936,6 +936,9 @@ body {
     border-color: #ffffff;
     color: #ffffffff;
 }
+.task:hover .comp{
+    color:#ffffff;
+}
 
 .task:hover .task-deadline-date {
     color: #fff;
