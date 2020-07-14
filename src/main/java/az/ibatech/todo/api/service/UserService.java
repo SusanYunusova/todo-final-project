@@ -82,7 +82,7 @@ public class UserService {
         }
     }
 
-    public String getByEmailAndPassword(String email, String password) {
+    public boolean getByEmailAndPassword(String email, String password) {
         try {
             log.info("trying to get by email and password");
             Optional<User> user= userDBService.getByEmailAndPassword(email,password);
@@ -90,16 +90,17 @@ public class UserService {
             if (user.isPresent()){
                 log.info("user found going to landing..");
                 session.setAttribute("user", user.get());
-                return "landing";
+                return true;
             }else {
 
                 log.info("user not found by email and password...");
-                httpServletRequest.setAttribute("errorMessage","No user found with given criteria");
-                return "index";
+//                model.addAttribute("noUserFound","No user found with given criteria");
+//                httpServletRequest.setAttribute("errorMessage","No user found with given criteria");
+                return false;
             }
         }catch (Exception e){
             log.error("error getting user by email and password{}",e,e);
-            return "index";
+            return false;
         }
 
     }

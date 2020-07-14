@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -51,6 +52,7 @@ public class IndexController {
         log.info("going to resetPassword page...");
         return "reset-password";
     }
+
     @GetMapping("api/logOut")
     public String logOut(HttpSession session) {
         log.info("going to logOut page...");
@@ -59,9 +61,17 @@ public class IndexController {
     }
 
     @GetMapping("api/signIn")
-    public String login(@RequestParam String email, @RequestParam String password) {
+    public String login(@RequestParam String email, @RequestParam String password, Model model) {
         log.info("trying to login by email and password");
-        return userService.getByEmailAndPassword(email, password);
+        boolean byEmailAndPassword = userService.getByEmailAndPassword(email, password);
+        if (byEmailAndPassword) {
+//            model.addAttribute("noUserFound", "No user found with given criteria");
+            return "landing";
+        } else {
+            log.info("setting model...");
+            model.addAttribute("noUserFound", "No user found with given criteria");
+            return "index";
+        }
 
     }
 }

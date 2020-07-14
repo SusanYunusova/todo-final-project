@@ -71,26 +71,6 @@
 	<div class="container">
 		<div class="tasks-caption">
 			<h2 class="tasks-caption-title">Archive</h2>
-<!--			<div class="tasks-caption-actions">-->
-<!--				<form class="tasks-filter" action="" id="sort-tasks">-->
-<!--					<label for="task-type" class="tasks-filter-label">Sort by</label>-->
-<!--					<select class="tasks-filter-list" name="task-type" id="task-type"-->
-<!--							th:selected="${session.status}"-->
-<!--							th:value="*{session.status}"-->
-<!--							th:onchange="loadDashBoard()"-->
-
-<!--					>-->
-
-
-<!--						<option class="tasks-filter-item" value="0" >All</option>-->
-<!--						<option class="tasks-filter-item" value="1" >Deleted</option>-->
-<!--						<option class="tasks-filter-item" value="2" >Overdue</option>-->
-<!--						<option class="tasks-filter-item" value="3" >Today</option>-->
-<!--						<option class="tasks-filter-item" value="4" >Done</option>-->
-<!--					</select>-->
-<!--				</form>-->
-<!--				<a href="/addTask" class="btn btn-dark btn-add-task">Add task</a>-->
-<!--			</div>-->
 		</div>
 
 		<div class="tasks-list">
@@ -104,11 +84,21 @@
 					<p class="task-deadline">Deadline to: <span class="task-deadline-date"
 																th:text="${task.getDeadline()}"></span></p>
 					<p class="task-description" th:text="${task.getDescription()}"></p>
-<!--					<div class="task-icons">-->
-<!--						<img class="task-icons-item" src="/static/img/bell.png" alt="bell">-->
-<!--						<img class="task-icons-item" src="/static/img/trash-bin.png" alt="bell">-->
-<!--					</div>-->
-<!--					<a href="#" class="task-btn">Complete</a>-->
+
+<!--					<a th:href="@{/api/deletePopUp/{path}(path=${task.getIdTask()})}" >-->
+					<a th:href="@{/api/deletePopUp}" >
+
+                       <img class="task-icons-item" src="/static/img/trash-bin.png"
+                            >
+
+                        </a>
+				</div>
+				<div class="alert" th:if="${deletePopUp!=null}">
+					<output th:text="${deletePopUp}"> </output>
+					<a th:href="@{/api/deleteTask/{path}(path=${task.getIdTask()})}" class="exitModal">Yes</a>
+					<br>
+					<a th:href="tasks-archive" class="exitModal">NO</a>
+
 				</div>
 			</nav>
 		</div>

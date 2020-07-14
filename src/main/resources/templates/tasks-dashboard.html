@@ -121,7 +121,12 @@
                     <p class="cut-text task-description" th:text="${task.getDescription()}"></p>
                     <div class="task-icons">
                         <img class="task-icons-item" src="/static/img/bell.png" alt="bell">
-                       <img class="task-icons-item" src="/static/img/trash-bin.png" th:href="@{/api/sendArchive/{path}(path=${task.getIdTask()})}">
+                        <a th:href="@{/api/sendArchive/{path}(path=${task.getIdTask()})}" >
+
+                       <img class="task-icons-item" src="/static/img/trash-bin.png"
+                            >
+
+                        </a>
 <!--                             th:onclick="load('/api/sendArchive/'+ [[${task.getIdTask()}]])" alt="bell">-->
 <!--                        <a th:href="@{/api/sendArchive/{path}(path=${task.getIdTask()})}" class="task-icons-item">-->
 <!--                            </a>-->

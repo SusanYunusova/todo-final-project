@@ -46,20 +46,21 @@ public class TaskService {
     }
 
 
-    public ResponseEntity<?> delete(long id) {
+    public boolean delete(long id) {
         try {
             log.info("trying to delete  Task by  id");
             Optional<Task> byIDTask = taskDBService.getById(id);
             if (byIDTask.isPresent()) {
                 taskDBService.delete(byIDTask.get());
-                return new ResponseEntity<>("deleted", HttpStatus.OK);
+                return true;
             } else {
-                return new ResponseEntity<>("couldn't find", HttpStatus.NO_CONTENT);
+                return false;
             }
 
         } catch (Exception e) {
             log.error("error save or update task{}{}", e, e);
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+
+            return false;
         }
     }
 
@@ -188,12 +189,12 @@ public class TaskService {
         return "index";
     }
 
-    public String getTaskByCurrentStatus(HttpSession session){
-        Integer status = (Integer)session.getAttribute("status");
+    public String getTaskByCurrentStatus(HttpSession session) {
+        Integer status = (Integer) session.getAttribute("status");
         User user = (User) session.getAttribute("user");
         List<Task> byStatus = getByStatus(status, user);
         user.setTaskList(byStatus);
-        session.setAttribute("user",user);
+        session.setAttribute("user", user);
         return "tasks-dashboard";
     }
 

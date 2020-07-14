@@ -36,7 +36,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/todo?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
-    password: 0503775946f
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -66,8 +66,8 @@ server:
   port: ${app.port}
 
 app:
-  host: localhost
-#  host: 185.2.103.111
+#  host: localhost
+  host: 185.2.103.111
   port: 9606
   email: todoApp.iba@gmail.com
   password: todoApp123

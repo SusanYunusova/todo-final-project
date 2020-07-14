@@ -49,7 +49,7 @@ public class TaskController {
                 .build();
         log.info("created task:{}", task.getTaskName());
         taskService.saveOrUpdate(task, session);
-      User newUser = (User) userService.getByID(user.getIdUser());
+        User newUser = (User) userService.getByID(user.getIdUser());
         session.setAttribute("user", newUser);
         session.setAttribute("task", task);
         return "tasks-dashboard";
@@ -89,7 +89,7 @@ public class TaskController {
     }
 
     @GetMapping("api/complete/{idTask}")
-    public String complete(@PathVariable long idTask,HttpSession session) {
+    public String complete(@PathVariable long idTask, HttpSession session) {
         log.info("trying to get complete by idTask");
         taskService.complete(idTask);
 
@@ -103,6 +103,28 @@ public class TaskController {
         return taskService.getTaskByCurrentStatus(session);
     }
 
+    @GetMapping("api/deletePopUp/")
+    public String deletePopUp( Model model) {
+        log.info("trying to  deletePopUp by idTask");
+//        taskService.sendArchive(idTask);
+        model.addAttribute("deletePopUp", "Are you sure to delete?\nThis action can not be undone");
+        return "tasks-archive";
+    }
+
+    @GetMapping("api/deleteTask/{idTask}")
+    public String deleteTask(@PathVariable int idTask, HttpSession session,Model model) {
+        boolean deleted = taskService.delete(idTask);
+        if (deleted){
+            log.info("deleted task succesfully");
+            model.addAttribute("deletedTask","Task deleted successfully");
+            taskService.getTaskByCurrentStatus(session);
+            return "tasks-archive";
+        }else {
+            log.info("couldnt delete");
+            model.addAttribute("errorDelete","Something went wrong...couldn't delete..");
+            return "tasks-archive";
+        }
+    }
     @GetMapping("api/sort-tasks/{status}")
     public String showTasksByStatus(@PathVariable int status, HttpSession session) {
         return taskService.getTaskByStatus(status, session);

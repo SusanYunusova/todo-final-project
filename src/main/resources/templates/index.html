@@ -26,12 +26,18 @@
         </a>
     </div>
 </div>
+<div class="alert" th:if="${noUserFound!=null}">
+    <output th:text="${noUserFound}"> </output>
+    <a th:href="@{/index}" class="exitModal">Exit</a>
+
+</div>
 <main class="start-content">
     <div class="container">
         <div class="start-content-row">
             <div class="start-content-welcome-img-b">
                 <img src="/static/img/start-page-promo.png" class="start-content-welcome-img" alt="#">
             </div>
+
             <div class="start-content-welcome-text-b">
                 <h1 class="welcome-title">Welcome back!</h1>
                 <p class="welcome-text">To keep connected with us please login with personal information by email address and password</p>
@@ -47,7 +53,7 @@
             <img src="/static/img/icons/email.png" alt="">
         </span>
     </span>
-                        <span th:text="${#httpServletRequest.getAttribute('errorMessage')}"></span>
+<!--                        <span  th:text="${#httpServletRequest.getAttribute('errorMessage')}"></span>-->
                         <input type="email"  name="email" class="form-control @@complete" placeholder="Email address" value="">
 
 
@@ -83,6 +89,7 @@
                 </form>
 
 
+
                 <div class="login-social-links">
                     <div class="social-links-caption">
                         <span class="social-links-caption-text">Or you can Join with</span>
@@ -95,12 +102,6 @@
 <!--                        <i class="social-link social-link-linkedin"></i>-->
                         <i class="social-link social-link-twitter"></i>
                     </div>
-<!--                    <div class="container unauthenticated">-->
-<!--                        Login with Fb <a href="/user">click here</a>-->
-<!--                    </div>-->
-<!--                    <div class="container authenticated">-->
-<!--                        Logged as <span id="user"></span>-->
-<!--                    </div>-->
                     <script type="text/javascript">
                         $.get("/user",function (data) {
                             $("#user").html(data.userAuthentication.details.name);
@@ -110,8 +111,6 @@
                         });
                     </script>
                 </div>
-
-
 
 
 
