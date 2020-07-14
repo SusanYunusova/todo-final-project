@@ -16,24 +16,6 @@
             height: 1.2em;
             white-space: nowrap;
         }
-
-
-        #compTask:disabled,
-        #compTask[disabled]{
-            border: 1px solid #999999;
-            background-color: #cccccc;
-            color: #666666;
-        }
-        .comp{
-            border: none;
-            background: transparent;
-            color: #828282;
-            font-size: 18px;
-            font-weight: 500;
-        }
-
-
-
     </style>
 </head>
 <body>
@@ -148,7 +130,7 @@
                     <!--                        <input type="hidden" th:text="${task.getIdTask()}" name="idTask"/>-->
 
                     <!--                    th:onclick="load('/api/complete/'+ [[${task.getIdTask()}]])"-->
-                    <a th:href="@{/api/complete/{path}(path=${task.getIdTask()})}" class="task-btn" id="compTask" onclick="change()">
+                    <a th:href="@{/api/complete/{path}(path=${task.getIdTask()})}" class="task-btn" >
                     Complete
                     </a>
                     <!--                        <button type="submit" class="task-btn">Complete</button>-->
@@ -215,13 +197,6 @@
         </div>
     </div>
 </section>
-<script>
-function change()
-{
-document.getElementById("compTask").innerHTML = "Completed";
-document.getElementById("done").style.display="block";
-    document.getElementById("compTask").disabled='disabled';
-}
-</script>
+
 </body>
 </html>
