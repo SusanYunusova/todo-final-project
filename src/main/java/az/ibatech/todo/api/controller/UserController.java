@@ -40,7 +40,7 @@ public class UserController {
         log.info("trying to update password  User ");
         boolean result = notificationService.sendNotificationReset(email, session);
         if (result) {
-        model.addAttribute("mailSent","Reset link has sent to your email,please check your email");
+            model.addAttribute("mailSent","Reset link has sent to your email,please check your email");
             return "reset-password";
         } else {
             model.addAttribute("wrongMail", "User not found with given criteria,please write correct mail");

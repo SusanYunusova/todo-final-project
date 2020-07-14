@@ -85,8 +85,8 @@ public class UserService {
     public String getByEmailAndPassword(String email, String password) {
         try {
             log.info("trying to get by email and password");
-           Optional<User> user= userDBService.getByEmailAndPassword(email,password);
-                HttpSession session = httpSessionObjectFactory.getObject();
+            Optional<User> user= userDBService.getByEmailAndPassword(email,password);
+            HttpSession session = httpSessionObjectFactory.getObject();
             if (user.isPresent()){
                 log.info("user found going to landing..");
                 session.setAttribute("user", user.get());

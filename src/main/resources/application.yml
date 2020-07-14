@@ -36,7 +36,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/todo?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
-    password: 123456
+    password: 0503775946f
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
