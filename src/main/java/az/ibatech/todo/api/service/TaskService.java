@@ -109,13 +109,13 @@ public class TaskService {
                 return taskList;
             } else {
                 log.info("couldn't find by status{}", status);
+               return new ArrayList<>();
             }
 
         } catch (Exception e) {
             log.error("error get by idUser o taskList{}{}", e, e);
-
+            return null;
         }
-        return null;
     }
 
     public void complete(long idTask) {
@@ -190,11 +190,17 @@ public class TaskService {
     }
 
     public String getTaskByCurrentStatus(HttpSession session) {
+        try {
+
         Integer status = (Integer) session.getAttribute("status");
         User user = (User) session.getAttribute("user");
+        log.info("user:{}",user.getFullName());
         List<Task> byStatus = getByStatus(status, user);
         user.setTaskList(byStatus);
         session.setAttribute("user", user);
+        }catch (Exception e){
+            log.error("error sendArchive...error:{}",e,e);
+        }
         return "tasks-dashboard";
     }
 

@@ -40,8 +40,10 @@ public class TaskDBService implements MySqlDBService<Task> {
     @Override
     public boolean delete(Task task) {
         try {
-            log.info("trying to delete task from db");
-            taskRepository.delete(task);
+            log.info("trying to delete task from db   id:{}",task.getIdTask());
+            task.setIsDelete(1);
+            taskRepository.save(task);
+            log.info("list of all by idUSer{}",task);
             return true;
         } catch (Exception e) {
             log.error("error from deleting task from db{}{}", e, e);
@@ -53,7 +55,7 @@ public class TaskDBService implements MySqlDBService<Task> {
     public Optional<Task> getById(long id) {
         try {
             log.info("trying to get task by id from db");
-            return taskRepository.findByIdTask(id);
+            return taskRepository.findByIdTaskAndIsDelete(id,0);
         } catch (Exception e) {
             log.error("error getting by id from Db{}{}", e, e);
             return Optional.empty();
@@ -64,7 +66,7 @@ public class TaskDBService implements MySqlDBService<Task> {
     public List<Task> getAll() {
         try {
             log.info("trying to getAll task from db");
-            return taskRepository.findAll();
+            return taskRepository.findAllByIsDelete(0);
         } catch (Exception e) {
             log.error("error getting all from db{}{}", e, e);
             return new ArrayList<>();
@@ -79,7 +81,7 @@ public class TaskDBService implements MySqlDBService<Task> {
     public List<Task> getByIdUser(User idUser) {
         try {
             log.info("trying to getAll taskList from db by idUser");
-            return taskRepository.findAllByIdUser(idUser);
+            return taskRepository.findAllByIdUserAndIsDelete(idUser,0);
         } catch (Exception e) {
             log.error("error getting all from db by idUser{}{}", e, e);
             return new ArrayList<>();
@@ -90,7 +92,7 @@ public class TaskDBService implements MySqlDBService<Task> {
         try {
             log.info("trying to getAll taskList from db by status");
 
-            return taskRepository.findAllByStatusAndIdUser(status,idUser);
+            return taskRepository.findAllByStatusAndIdUserAndIsDelete(status,idUser,0);
         } catch (Exception e) {
             log.error("error getting all from db by status{}{}", e, e);
             return new ArrayList<>();
@@ -100,7 +102,7 @@ public class TaskDBService implements MySqlDBService<Task> {
     public Optional<Task> complete(long idTask) {
         try {
             log.info("trying to get task by idTask{}", idTask);
-            Optional<Task> byIdTask = taskRepository.findByIdTask(idTask);
+            Optional<Task> byIdTask = taskRepository.findByIdTaskAndIsDelete(idTask,0);
             if (byIdTask.isPresent()) {
                 log.info("setting status to complete 4");
                 byIdTask.get().setStatus(4);
@@ -118,7 +120,7 @@ public class TaskDBService implements MySqlDBService<Task> {
     public Optional<Task> sendArchive(long idTask) {
         try {
             log.info("trying to get task by idTask{}", idTask);
-            Optional<Task> byIdTask = taskRepository.findByIdTask(idTask);
+            Optional<Task> byIdTask = taskRepository.findByIdTaskAndIsDelete(idTask,0);
             if (byIdTask.isPresent()) {
                 log.info("setting status to sendArchive 1");
                 byIdTask.get().setStatus(1);

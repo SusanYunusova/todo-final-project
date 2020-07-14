@@ -103,11 +103,12 @@ public class TaskController {
         return taskService.getTaskByCurrentStatus(session);
     }
 
-    @GetMapping("api/deletePopUp/")
-    public String deletePopUp( Model model) {
+    @GetMapping("api/deletePopUp/{idTask}")
+    public String deletePopUp(@PathVariable long idTask,  Model model) {
         log.info("trying to  deletePopUp by idTask");
 //        taskService.sendArchive(idTask);
         model.addAttribute("deletePopUp", "Are you sure to delete?\nThis action can not be undone");
+        model.addAttribute("idTaskForDelete",idTask);
         return "tasks-archive";
     }
 
@@ -117,7 +118,7 @@ public class TaskController {
         if (deleted){
             log.info("deleted task succesfully");
             model.addAttribute("deletedTask","Task deleted successfully");
-            taskService.getTaskByCurrentStatus(session);
+             taskService.getTaskByCurrentStatus(session);
             return "tasks-archive";
         }else {
             log.info("couldnt delete");
@@ -133,6 +134,11 @@ public class TaskController {
     @GetMapping("api/task-archive/{status}")
     public String taskArchive(@PathVariable int status, HttpSession session) {
         return taskService.getTaskArchive(status, session);
+    }
+    @GetMapping("api/exitArchive")
+    public  String exitArchive(){
+        log.info("exitArchive....");
+        return "tasks-archive";
     }
 
 }

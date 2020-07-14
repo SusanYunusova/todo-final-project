@@ -25,7 +25,7 @@ public class UserController {
         this.notificationService = notificationService;
     }
 
-    @GetMapping("api/createUser")
+    @PostMapping("api/createUser")
     public String login(
             @RequestParam String fullName,
             @RequestParam String email,

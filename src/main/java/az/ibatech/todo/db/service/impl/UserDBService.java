@@ -85,7 +85,7 @@ public class UserDBService implements MySqlDBService<User> {
     public Optional<User> getByEmailAndPassword(String email, String password) {
         try {
             log.info("trying to get user by email and password");
-            return userRepository.findByEmailAndPassword(email,password);
+            return userRepository.findByEmailAndPasswordAndIsConfirm(email,password,1);
         }catch (Exception e){
             log.error("error getting email and password{}",e,e);
             return Optional.empty();

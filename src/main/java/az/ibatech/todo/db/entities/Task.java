@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-@ToString
+//@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,11 +33,23 @@ public class Task implements Serializable {
     private String description;
     @Column(name = "status")
     private int status;
+    @Column(name = "isDelete")
+    private int isDelete;
 
     @ManyToOne
     @JoinColumn(name = "id_User", referencedColumnName = "id")
     @JsonBackReference
     private User idUser;
 
-
+    @Override
+    public String toString() {
+        return "Task{" +
+                "idTask=" + idTask +
+                ", createdTime=" + createdTime +
+                ", deadline=" + deadline +
+                ", taskName='" + taskName + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

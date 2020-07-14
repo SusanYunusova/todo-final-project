@@ -2,6 +2,8 @@ package az.ibatech.todo.social.service.impl;
 
 import az.ibatech.todo.social.service.FaceBookService;
 import az.ibatech.todo.social.service.GoogleService;
+import az.ibatech.todo.utility.AppConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.User;
@@ -21,8 +23,16 @@ public class GoogleServiceImpl implements GoogleService {
     @Value("${spring.social.google.app.secret}")
     private String googleSecret;
 
-    private  String uri="http://localhost:9606/google";
+    private final AppConfiguration appConfiguration;
+
+    private  String uri;
     private  String scope="public_profile,email";
+
+    @Autowired
+    public GoogleServiceImpl(AppConfiguration appConfiguration) {
+        this.appConfiguration = appConfiguration;
+        uri="http://"+appConfiguration.getHost()+":"+appConfiguration.getPort()+"/google";
+    }
 
     private GoogleConnectionFactory createGoogleConnection(){
         return new GoogleConnectionFactory(googleId,googleSecret);

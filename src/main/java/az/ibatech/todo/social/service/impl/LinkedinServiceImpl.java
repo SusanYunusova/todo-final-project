@@ -1,6 +1,7 @@
 package az.ibatech.todo.social.service.impl;
 
 import az.ibatech.todo.social.service.LinkedinService;
+import az.ibatech.todo.utility.AppConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.linkedin.api.LinkedIn;
@@ -17,8 +18,14 @@ public class LinkedinServiceImpl implements LinkedinService {
     @Value("${spring.social.linkedin.app.secret}")
     private String linkedinSecret;
 
-    private  String uri="http://localhost:9606/linkedin";
+    private final AppConfiguration appConfiguration;
+    private  String uri;
     private  String scope="public_profile,email";
+
+    public LinkedinServiceImpl(AppConfiguration appConfiguration) {
+        this.appConfiguration = appConfiguration;
+        uri="http://"+appConfiguration.getHost()+":"+appConfiguration.getPort()+"/linkedin";
+    }
 
     private LinkedInConnectionFactory createLinkedinConnection(){
         return new LinkedInConnectionFactory(linkedinId,linkedinSecret);

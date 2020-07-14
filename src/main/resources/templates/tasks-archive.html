@@ -56,9 +56,13 @@
 					<li class="hidden-accordion-item"><a href="/api/sort-tasks/0" class="hidden-accordion-item-link"><img
 							class="hidden-accordion-item-image" src="/static/img/favourite-icon.svg"
 							alt="Favourite Icon">My tasks</a></li>
-					<li class="hidden-accordion-item"><a href="./login.html" class="hidden-accordion-item-link"><img
-							class="hidden-accordion-item-image" src="/static/img/log-out-icon.svg" alt="Log Out Icon">Log
-						Out</a></li>
+					<li class="hidden-accordion-item">
+						<a href="/api/logOut" class="hidden-accordion-item-link">
+							<img class="hidden-accordion-item-image" src="/static/img/log-out-icon.svg"
+								 alt="Log Out Icon"/>
+							Log Out
+						</a>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -73,10 +77,20 @@
 			<h2 class="tasks-caption-title">Archive</h2>
 		</div>
 
+				<div class="alert" th:if="${deletePopUp!=null}">
+					<output th:text="${deletePopUp}"> </output>
+				<div>
+					<a th:href="@{/api/deleteTask/{path}(path=${idTaskForDelete})}" class="exitModal">Yes</a>
+					<br>
+					<a th:href="@{/api/exitArchive}" class="exitModal">NO</a>
+				</div>
+				</div>
 		<div class="tasks-list">
 
 			<!--                     th:attr="onclick=|loadContent('${task.getTaskName()}')|">-->
 			<!--            <div class="task" th:onclick="showTaskDetail([[${task}]])" th:attr="taskForEdit=${task}">-->
+
+
 			<nav th:each="task :${session.user.getTaskList()}">
 				<div class="task" th:onclick="load('api/taskEdit/'+ [[${task.getIdTask()}]])">
 					<h4 class="task-title" th:text="${task.getTaskName()}"></h4>
@@ -86,19 +100,12 @@
 					<p class="task-description" th:text="${task.getDescription()}"></p>
 
 <!--					<a th:href="@{/api/deletePopUp/{path}(path=${task.getIdTask()})}" >-->
-					<a th:href="@{/api/deletePopUp}" >
+					<a th:href="@{/api/deletePopUp/{path}(path=${task.getIdTask()})}" >
 
                        <img class="task-icons-item" src="/static/img/trash-bin.png"
-                            >
+					   >
 
                         </a>
-				</div>
-				<div class="alert" th:if="${deletePopUp!=null}">
-					<output th:text="${deletePopUp}"> </output>
-					<a th:href="@{/api/deleteTask/{path}(path=${task.getIdTask()})}" class="exitModal">Yes</a>
-					<br>
-					<a th:href="tasks-archive" class="exitModal">NO</a>
-
 				</div>
 			</nav>
 		</div>
