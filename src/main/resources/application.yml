@@ -19,15 +19,18 @@ spring:
   application:
     name: todo
   datasource:
-    url: jdbc:mysql://localhost:3306/todo?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mysql://${app.db.host}:${app.db.port}/todo?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
-    password: 123456
+    password: root123
     driver-class-name: com.mysql.cj.jdbc.Driver
+    tomcat:
+      test-while-idle: true
+      validation-query: 1
   jpa:
     hibernate:
-
       ddl-auto: update
     show-sql: true
+    database-platform: org.hibernate.dialect.MySQL57Dialect
   resources:
     chain:
       strategy:
@@ -46,14 +49,17 @@ spring:
             enable: true
 
 
-
 server:
   port: ${app.port}
 
 app:
-#  host: localhost
-  host: 185.2.103.111
+  host: localhost
+  #  host: 185.2.103.111
   port: 9606
   email: todoApp.iba@gmail.com
   password: todoApp123
-
+  emailhost: 185.2.103.111
+  db:
+    #    host: localhost
+    host: db-todo
+    port: 3306
