@@ -36,6 +36,9 @@ public class Task implements Serializable {
     @Column(name = "isDelete")
     private int isDelete;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @ManyToOne
     @JoinColumn(name = "id_User", referencedColumnName = "id")
     @JsonBackReference

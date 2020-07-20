@@ -67,7 +67,7 @@
                             class="hidden-accordion-item-image" src="/static/img/archive-icon.svg" alt="User Icon">Archive</a>
                     </li>
                     <li class="hidden-accordion-item">
-                        <a href="/api/logOut" class="hidden-accordion-item-link">
+                        <a th:href="@{/api/logOut}" class="hidden-accordion-item-link">
                             <img class="hidden-accordion-item-image" src="/static/img/log-out-icon.svg"
                                  alt="Log Out Icon"/>
                             Log Out
@@ -85,6 +85,14 @@
     <div class="container">
         <div class="tasks-caption">
             <h2 class="tasks-caption-title">Dashboard</h2>
+            <!--          todo      pagination-->
+<!--            <div th:if="${session.user.getTaskList().size()/session.pageSize > 0}" class="pagination"-->
+            <div  class="pagination"
+                 th:each="pageNumber : ${pageNumbers}">
+                <a th:href="@{/api/sort-tasks/pagination(status=${session.status},page=${pageNumber})}"
+                   th:text=${pageNumber}
+                   th:class="${pageNumber==session.current} ? active"></a>
+            </div>
             <div class="tasks-caption-actions">
                 <form class="tasks-filter" action="" id="sort-tasks">
                     <label for="task-type" class="tasks-filter-label">Sort by</label>
@@ -109,8 +117,6 @@
 
         <div class="tasks-list">
 
-            <!--                     th:attr="onclick=|loadContent('${task.getTaskName()}')|">-->
-            <!--            <div class="task" th:onclick="showTaskDetail([[${task}]])" th:attr="taskForEdit=${task}">-->
             <nav th:each="task :${session.user.getTaskList()}">
                 <div class="task" th:onclick="load('/api/taskEdit/'+ [[${task.getIdTask()}]])">
                     <img id="done" src="/static/img/icons/correct.png" th:if="${task.getStatus()==4}" style="float: right; display: block"/>
@@ -143,7 +149,9 @@
 
                 </div>
             </nav>
+
         </div>
+
         <!--    </div>-->
 
         <div class="task-card-section" th:if="${taskForEdit != null}" id="taskEdit">

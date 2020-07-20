@@ -21,7 +21,8 @@ spring:
   datasource:
     url: jdbc:mysql://${app.db.host}:${app.db.port}/todo?createDatabaseIfNotExist=true&useUnicode=yes&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
-    password: root123
+    password: 123456
+#    password: root123
     driver-class-name: com.mysql.cj.jdbc.Driver
     tomcat:
       test-while-idle: true
@@ -58,8 +59,8 @@ app:
   port: 9606
   email: todoApp.iba@gmail.com
   password: todoApp123
-  emailhost: 185.2.103.111
+#  emailhost: 185.2.103.111
   db:
-    #    host: localhost
-    host: db-todo
+    host: localhost
+#    host: db-todo
     port: 3306

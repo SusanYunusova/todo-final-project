@@ -5,6 +5,8 @@ import az.ibatech.todo.db.entities.User;
 import az.ibatech.todo.db.repos.TaskRepository;
 import az.ibatech.todo.db.service.MySqlDBService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -78,21 +80,43 @@ public class TaskDBService implements MySqlDBService<Task> {
         return null;
     }
 
-    public List<Task> getByIdUser(User idUser) {
+    public List<Task> getByIdUser(User idUser,int page,int count) {
         try {
             log.info("trying to getAll taskList from db by idUser");
-            return taskRepository.findAllByIdUserAndIsDelete(idUser,0);
+            Pageable pagination = PageRequest.of(page, count);
+            return taskRepository.findAllByIdUserAndIsDelete(idUser,0,pagination);
         } catch (Exception e) {
             log.error("error getting all from db by idUser{}{}", e, e);
             return new ArrayList<>();
         }
     }
+    public  int getTaskCountByStatus(User user,int status){
+        try {
+            log.info("getting task count by status user:{},status:{}",user.getFullName(),status);
+           return status!=0? taskRepository.countAllByIdUserAndIsDeleteAndStatus(user,0,status)
+                   :taskRepository.countAllByIdUserAndIsDelete(user,0);
 
-    public List<Task> getByStatus(int status,User idUser) {
+        }catch (Exception e){
+            log.error("error getting count of task by status error{}",e,e);
+            return 0;
+        }
+    }
+
+//    public List<Task> getByStatus(int status,User idUser) {
+//        try {
+//            log.info("trying to getAll taskList from db by status");
+//
+//            return taskRepository.findAllByStatusAndIdUserAndIsDelete(status,idUser,0, pagination);
+//        } catch (Exception e) {
+//            log.error("error getting all from db by status{}{}", e, e);
+//            return new ArrayList<>();
+//        }
+//    }
+    public List<Task> getByStatus(int status,User idUser,int page, int count) {
         try {
             log.info("trying to getAll taskList from db by status");
-
-            return taskRepository.findAllByStatusAndIdUserAndIsDelete(status,idUser,0);
+            Pageable pagination = PageRequest.of(page, count);
+            return taskRepository.findAllByStatusAndIdUserAndIsDelete(status,idUser,0,pagination);
         } catch (Exception e) {
             log.error("error getting all from db by status{}{}", e, e);
             return new ArrayList<>();
