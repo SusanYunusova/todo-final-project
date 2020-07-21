@@ -5,6 +5,7 @@ import az.ibatech.todo.api.service.UserService;
 import az.ibatech.todo.db.entities.Task;
 import az.ibatech.todo.db.entities.User;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +39,8 @@ import java.util.stream.IntStream;
 @Controller
 @Slf4j
 public class TaskController {
-    private final String UPLOAD_DIR = "D://uploads/";
+//    private final String UPLOAD_DIR = "D://uploads/";
+    private final String UPLOAD_DIR = "/usr/services/uploads/";
 
     private final TaskService taskService;
     private final UserService userService;
@@ -110,9 +113,25 @@ public class TaskController {
     public String editTask(@PathVariable long idTask, Model model) {
         Task task = taskService.getByID(idTask).getBody().get();
         model.addAttribute("taskForEdit", task);
+        model.addAttribute("taskImage",getImageAsBase64(task.getImage_url()));
         return "tasks-dashboard";
     }
-
+    private String getImageAsBase64(String filePath){
+        if (filePath==null){
+            return null;
+        }
+        log.debug("Trying to convert image for path : {}",filePath);
+        byte[] fileContent = new byte[0];
+        try {
+            fileContent = FileUtils.readFileToByteArray(new File(filePath));
+            String encodedString = Base64.getEncoder().encodeToString(fileContent);
+//            log.info("Image as string : {}",encodedString);
+            return encodedString;
+        } catch (IOException e) {
+            log.error("Error converting image to string base64 : {}",e,e);
+        }
+        return null;
+    }
     @GetMapping("api/updateTask")
     public String updateTask(
             Model model,

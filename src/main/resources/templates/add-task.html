@@ -25,9 +25,9 @@
 			<img class="main-header-user-icon" src="/static/img/user-icon-with-background.svg" alt="User Icon">
 			<div class="hidden-accordion-wrapper">
 				<ul class="hidden-accordion">
-					<li class="hidden-accordion-item"><a href="tasks-archive.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="/static/img/archive-icon.svg" alt="User Icon">Archive</a></li>
-					<li class="hidden-accordion-item"><a href="tasks-dashboard.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="/static/img/favourite-icon.svg" alt="Favourite Icon">My tasks</a></li>
-					<li class="hidden-accordion-item"><a href="./login.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="/static/img/log-out-icon.svg" alt="Log Out Icon">Log Out</a></li>
+					<li class="hidden-accordion-item"><a th:href="@{/api/task-archive/1}" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="/static/img/archive-icon.svg" alt="User Icon">Archive</a></li>
+					<li class="hidden-accordion-item"><a th:href="@{/api/dashboard}" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="/static/img/favourite-icon.svg" alt="Favourite Icon">My tasks</a></li>
+					<li class="hidden-accordion-item"><a th:href="@{/api/logOut}" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="/static/img/log-out-icon.svg" alt="Log Out Icon">Log Out</a></li>
 				</ul>
 			</div>
 		</div>
