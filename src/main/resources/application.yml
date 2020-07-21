@@ -16,6 +16,15 @@ spring:
         id: 179076641433-okgi2ppavasdm2d8g9h88hdfs6ai8i0l.apps.googleusercontent.com
         secret: Qxbm5-C4o0ubNkeo38Kt0sbu
 
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 215MB
+
+
+
+
+
   application:
     name: todo
   datasource:

@@ -19,6 +19,7 @@ public class OAuth2Configuration extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/",
                         "/login**",
+                        "D:\\uploads\\**",
                         "/webjars/**",
                         "/facebook/**",
                         "/facebookProfileData/**",

@@ -76,7 +76,12 @@
 		<div class="tasks-caption">
 			<h2 class="tasks-caption-title">Archive</h2>
 		</div>
-
+		<div  class="pagination"
+			  th:each="pageNumber : ${pageNumbers}">
+			<a th:href="@{/api/sort-tasks/pagination(status=${session.status},page=${pageNumber})}"
+			   th:text=${pageNumber}
+			   th:class="${pageNumber==session.current} ? active"></a>
+		</div>
 				<div class="alert" th:if="${deletePopUp!=null}">
 					<output th:text="${deletePopUp}"> </output>
 				<div>

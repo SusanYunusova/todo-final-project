@@ -5,6 +5,7 @@ import az.ibatech.todo.api.service.UserService;
 import az.ibatech.todo.db.entities.Task;
 import az.ibatech.todo.db.entities.User;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,11 +13,21 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +37,8 @@ import java.util.stream.IntStream;
 @Controller
 @Slf4j
 public class TaskController {
+    private final String UPLOAD_DIR = "D://uploads/";
+
     private final TaskService taskService;
     private final UserService userService;
     @Autowired
@@ -36,14 +49,43 @@ public class TaskController {
         this.userService = userService;
     }
 
-    @GetMapping("api/createTask")
+
+    public String uploadFile(MultipartFile file) {
+
+        // check if file is empty
+        if (file.isEmpty()) {
+            return null;
+        }
+
+
+        // save the file on the local file system
+        try {
+
+
+            String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+            Path path = Paths.get(UPLOAD_DIR + new Date().getTime()+"."+extension);
+            log.info("path of image file:{}",path);
+            File  newFile = new File(path.toString());
+            file.transferTo(newFile);
+//            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        return path.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
+
+    @PostMapping("api/createTask")
     public String login(
             Model model,
+            @RequestParam("file") MultipartFile file,
             @RequestParam String deadline,
-            @RequestParam String taskImage,
             @RequestParam String taskName,
             @RequestParam String description) throws ParseException {
         log.info("trying to add task ");
+
         HttpSession session = httpSessionObjectFactory.getObject();
         User user = (User) session.getAttribute("user");
         Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(deadline);
@@ -51,7 +93,7 @@ public class TaskController {
                 .createdTime(new Date())
                 .deadline(date1)
                 .taskName(taskName)
-                .imageUrl(taskImage)
+                .image_url(uploadFile(file))
                 .description(description)
                 .idUser(user)
                 .build();

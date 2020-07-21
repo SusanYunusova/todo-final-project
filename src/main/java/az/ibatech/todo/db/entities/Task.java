@@ -2,6 +2,7 @@ package az.ibatech.todo.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -37,7 +38,7 @@ public class Task implements Serializable {
     private int isDelete;
 
     @Column(name = "image_url")
-    private String imageUrl;
+    private String image_url;
 
     @ManyToOne
     @JoinColumn(name = "id_User", referencedColumnName = "id")
