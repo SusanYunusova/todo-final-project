@@ -119,18 +119,6 @@ public class TaskService {
 
     }
 
-//    public List<Task> getByIDUser(long idUser) {
-//        try {
-//            log.info("trying to get  taskList by  idUser");
-//            List<Task> taskList = taskDBService.getByIdUser(idUser);
-////            httpServletRequest.setAttribute("taskList", taskList);
-//            return taskList;
-//        } catch (Exception e) {
-//            log.error("error get by idUser o taskList{}{}", e, e);
-//            return new ArrayList<>();
-//        }
-//    }
-
     private List<Task> getByStatus(int status, User idUser,int page,int count) {
         try {
 

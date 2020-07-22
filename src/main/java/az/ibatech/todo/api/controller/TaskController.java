@@ -54,30 +54,22 @@ public class TaskController {
 
 
     public String uploadFile(MultipartFile file) {
-
         // check if file is empty
         if (file.isEmpty()) {
             return null;
         }
-
-
         // save the file on the local file system
         try {
-
-
             String extension = FilenameUtils.getExtension(file.getOriginalFilename());
             Path path = Paths.get(UPLOAD_DIR + new Date().getTime()+"."+extension);
             log.info("path of image file:{}",path);
             File  newFile = new File(path.toString());
             file.transferTo(newFile);
-//            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
         return path.toString();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-
-
     }
 
     @PostMapping("api/createTask")
@@ -125,7 +117,6 @@ public class TaskController {
         try {
             fileContent = FileUtils.readFileToByteArray(new File(filePath));
             String encodedString = Base64.getEncoder().encodeToString(fileContent);
-//            log.info("Image as string : {}",encodedString);
             return encodedString;
         } catch (IOException e) {
             log.error("Error converting image to string base64 : {}",e,e);
@@ -211,21 +202,6 @@ public class TaskController {
         session.setAttribute("current", page.get()-1);
 
         return taskService.getTaskByStatus(status, session, model);
-
-//        Page<Task> taskPage = taskService.findPaginated(PageRequest.of(currentPage - 1, pageSize));
-//
-//        model.addAttribute("taskPage", taskPage);
-//
-//        int totalPages = taskPage.getTotalPages();
-//        if (totalPages > 0) {
-//            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
-//                    .boxed()
-//                    .collect(Collectors.toList());
-//            model.addAttribute("pageNumbers", pageNumbers);
-//        }
-//
-//        return taskService.getTaskByStatus(status, session);
-
     }
 
 
